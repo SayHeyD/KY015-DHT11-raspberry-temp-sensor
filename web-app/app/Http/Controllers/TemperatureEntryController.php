@@ -13,7 +13,7 @@ class TemperatureEntryController extends Controller
     {
         $device = Auth::user();
 
-        if (! $device instanceof Device::class) {
+        if (! $device instanceof Device) {
             return response()
                 ->json(
                     [
