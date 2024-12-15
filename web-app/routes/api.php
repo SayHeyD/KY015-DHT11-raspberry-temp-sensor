@@ -8,6 +8,6 @@ Route::middleware('auth:sanctum')
     ->name('api.v1.')
     ->group(function () {
         Route::prefix('/temperatures')->name('temperatures.')->group(function () {
-            Route::post('/store', [TemperatureEntryController::class, 'store'])->name('store');
+            Route::post('/', [TemperatureEntryController::class, 'store'])->name('store');
         });
 });
