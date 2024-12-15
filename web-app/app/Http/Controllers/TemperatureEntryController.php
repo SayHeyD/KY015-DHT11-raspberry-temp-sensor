@@ -23,11 +23,17 @@ class TemperatureEntryController extends Controller
                 );
         }
 
-        $tempEntry = TemperatureEntry::create([
+        $tempEntryValues = [
             'device_id' => $device->id,
             'temperature' => $request->temperature,
             'humidity' => $request->humidity,
-        ]);
+        ];
+
+        if ($request->has('created_at')) {
+            $tempEntryValues['created_at'] = $request->created_at;
+        }
+
+        $tempEntry = TemperatureEntry::create($tempEntryValues);
 
         return response()->json(['id' => $tempEntry->id],201);
     }
