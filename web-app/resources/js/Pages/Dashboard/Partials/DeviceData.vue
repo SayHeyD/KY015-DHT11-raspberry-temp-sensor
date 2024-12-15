@@ -1,5 +1,6 @@
 <script setup>
-import {computed, onBeforeMount, ref} from "vue";
+import { router } from '@inertiajs/vue3'
+import {computed, nextTick, onBeforeMount, onMounted, onUnmounted, ref, watch} from "vue";
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
 import { Line } from "vue-chartjs";
@@ -61,6 +62,19 @@ const overviewChartOptions = {
     }
 }
 
+let refreshInterval
+
+const selectedDevice = ref(null)
+
+const lastTempEntryStatus = ref('bg-gray-500')
+
+const averageTemperature = ref(0)
+const averageHumidity = ref(0)
+const maxTemperature = ref(0)
+const maxHumidity = ref(0)
+const minTemperature = ref(0)
+const minHumidity = ref(0)
+
 const overviewChartData = computed(() => {
     let labels = []
     let temperatureDataSet = {
@@ -93,97 +107,132 @@ const overviewChartData = computed(() => {
     }
 })
 
-const averageTemperature = computed(() => {
+const generateAverageTemperature = () => {
     let totalTemperature = 0
     selectedDevice.value.temperatures.forEach((tempEntry) => {
         totalTemperature += tempEntry.temperature
     })
 
-    return (totalTemperature / selectedDevice.value.temperatures.length).toFixed(2)
-})
+    averageTemperature.value = (totalTemperature / selectedDevice.value.temperatures.length).toFixed(2)
+}
 
-const averageHumidity = computed(() => {
+const generateAverageHumidity = () => {
     let totalHumidity = 0
     selectedDevice.value.temperatures.forEach((tempEntry) => {
         totalHumidity += tempEntry.humidity
     })
 
-    return (totalHumidity / selectedDevice.value.temperatures.length).toFixed(2)
-})
+    averageHumidity.value = (totalHumidity / selectedDevice.value.temperatures.length).toFixed(2)
+}
 
-const maxTemperature = computed(() => {
-    let maxTemperature
+const generateMaxTemperature = () => {
+    let calculatedMaxTemperature
     selectedDevice.value.temperatures.forEach((tempEntry) => {
-        if (maxTemperature == null || tempEntry.temperature > maxTemperature) {
-            maxTemperature = tempEntry.temperature
+        if (calculatedMaxTemperature == null || tempEntry.temperature > calculatedMaxTemperature) {
+            calculatedMaxTemperature = tempEntry.temperature
         }
     })
 
-    return maxTemperature
-})
+    maxTemperature.value = calculatedMaxTemperature
+}
 
-const maxHumidity = computed(() => {
-    let maxHumidity
+const generateMaxHumidity = () => {
+    let calculatedMaxHumidity
     selectedDevice.value.temperatures.forEach((tempEntry) => {
-        if (maxHumidity == null || tempEntry.humidity > maxHumidity) {
-            maxHumidity = tempEntry.humidity
+        if (calculatedMaxHumidity == null || tempEntry.humidity > calculatedMaxHumidity) {
+            calculatedMaxHumidity = tempEntry.humidity
         }
     })
 
-    return maxHumidity
-})
+    maxHumidity.value = calculatedMaxHumidity
+}
 
-const minTemperature = computed(() => {
-    let minTemperature
+const generateMinTemperature = () => {
+    let calculatedMinTemperature
     selectedDevice.value.temperatures.forEach((tempEntry) => {
-        if (minTemperature == null || tempEntry.temperature < minTemperature) {
-            minTemperature = tempEntry.temperature
+        if (calculatedMinTemperature == null || tempEntry.temperature < calculatedMinTemperature) {
+            calculatedMinTemperature = tempEntry.temperature
         }
     })
 
-    return minTemperature
-})
+    minTemperature.value = calculatedMinTemperature
+}
 
-const minHumidity = computed(() => {
-    let minHumidity
+const generateMinHumidity = () => {
+    let calculatedMinHumidity
     selectedDevice.value.temperatures.forEach((tempEntry) => {
-        if (minHumidity == null || tempEntry.humidity < minHumidity) {
-            minHumidity = tempEntry.humidity
+        if (calculatedMinHumidity == null || tempEntry.humidity < calculatedMinHumidity) {
+            calculatedMinHumidity = tempEntry.humidity
         }
     })
 
-    return minHumidity
+    minHumidity.value = calculatedMinHumidity
+}
+
+watch(props.devices, () => {
+    dataUpdate()
 })
 
-const selectedDevice = ref(null)
-
-const lastTempEntryStatus = () => {
+const generateLastTempEntryStatus = () => {
 
     if (selectedDevice.value != null && selectedDevice.value.temperatures.length > 0) {
         let createdAt = new Date(selectedDevice.value.temperatures[0].created_at)
         let timeDifferenceInSeconds = (Date.now() - createdAt) / 1000
 
         if (timeDifferenceInSeconds <= 5) {
-            return 'bg-green-500'
+            lastTempEntryStatus.value = 'bg-green-500'
         } else if (timeDifferenceInSeconds <= 300) {
-            return 'bg-yellow-500'
+            lastTempEntryStatus.value = 'bg-yellow-500'
         } else if (timeDifferenceInSeconds >= 300) {
-            return 'bg-red-500'
+            lastTempEntryStatus.value = 'bg-red-500'
         }
+    } else {
+        lastTempEntryStatus.value = 'bg-gray-500'
     }
-
-    return 'bg-gray-500'
 }
 
-onBeforeMount(() => {
+const setSelectedDevice = () => {
     if (props.devices.length === 0)
     {
         return
     }
 
     selectedDevice.value = props.devices[0]
+}
+
+const refreshTempEntries = () => {
+    // TODO: properties only update after the second refresh
+    router.reload({
+        only: ['devices'],
+    })
+    nextTick(() => {
+        dataUpdate()
+        console.log(props.devices[0].temperatures)
+    })
+}
+
+const dataUpdate = () => {
+    setSelectedDevice()
+    generateLastTempEntryStatus()
+    generateAverageTemperature()
+    generateAverageHumidity()
+    generateMaxTemperature()
+    generateMaxHumidity()
+    generateMinTemperature()
+    generateMinHumidity()
+}
+
+onBeforeMount(() => {
+    dataUpdate()
 })
 
+onMounted(() => {
+    refreshInterval = setInterval(refreshTempEntries, 15000)
+})
+
+onUnmounted(() => {
+    clearInterval(refreshInterval)
+})
 </script>
 
 <template>
@@ -247,7 +296,7 @@ onBeforeMount(() => {
       <div>
         <div class="flex items-center">
           <div class="min-h-4 min-w-4 rounded-full animate-pulse"
-                :class="lastTempEntryStatus()"
+                :class="lastTempEntryStatus"
           />
           <h2 class="ms-3 text-xl font-semibold text-gray-900 dark:text-white">
             Device Status
