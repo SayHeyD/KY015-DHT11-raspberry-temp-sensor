@@ -25,6 +25,7 @@ class StoreTemperatureEntryRequest extends FormRequest
         return [
             'temperature' => ['required', 'numeric', 'min:0', 'max:9000'],
             'humidity' => ['required', 'numeric', 'min:0', 'max:100'],
+            'created_at' => ['nullable', 'date'],
         ];
     }
 }
