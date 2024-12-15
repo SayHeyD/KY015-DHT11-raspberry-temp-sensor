@@ -93,6 +93,68 @@ const overviewChartData = computed(() => {
     }
 })
 
+const averageTemperature = computed(() => {
+    let totalTemperature = 0
+    selectedDevice.value.temperatures.forEach((tempEntry) => {
+        totalTemperature += tempEntry.temperature
+    })
+
+    return (totalTemperature / selectedDevice.value.temperatures.length).toFixed(2)
+})
+
+const averageHumidity = computed(() => {
+    let totalHumidity = 0
+    selectedDevice.value.temperatures.forEach((tempEntry) => {
+        totalHumidity += tempEntry.humidity
+    })
+
+    return (totalHumidity / selectedDevice.value.temperatures.length).toFixed(2)
+})
+
+const maxTemperature = computed(() => {
+    let maxTemperature
+    selectedDevice.value.temperatures.forEach((tempEntry) => {
+        if (maxTemperature == null || tempEntry.temperature > maxTemperature) {
+            maxTemperature = tempEntry.temperature
+        }
+    })
+
+    return maxTemperature
+})
+
+const maxHumidity = computed(() => {
+    let maxHumidity
+    selectedDevice.value.temperatures.forEach((tempEntry) => {
+        if (maxHumidity == null || tempEntry.humidity > maxHumidity) {
+            maxHumidity = tempEntry.humidity
+        }
+    })
+
+    return maxHumidity
+})
+
+const minTemperature = computed(() => {
+    let minTemperature
+    selectedDevice.value.temperatures.forEach((tempEntry) => {
+        if (minTemperature == null || tempEntry.temperature < minTemperature) {
+            minTemperature = tempEntry.temperature
+        }
+    })
+
+    return minTemperature
+})
+
+const minHumidity = computed(() => {
+    let minHumidity
+    selectedDevice.value.temperatures.forEach((tempEntry) => {
+        if (minHumidity == null || tempEntry.humidity < minHumidity) {
+            minHumidity = tempEntry.humidity
+        }
+    })
+
+    return minHumidity
+})
+
 const selectedDevice = ref(null)
 
 const lastTempEntryStatus = () => {
@@ -206,17 +268,20 @@ onBeforeMount(() => {
 
       <div>
         <div class="flex items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="size-6 stroke-gray-400">
-            <path stroke-linecap="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" />
+          <svg class="size-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor">
+            <!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+            <path d="M160 80c0-26.5 21.5-48 48-48l32 0c26.5 0 48 21.5 48 48l0 352c0 26.5-21.5 48-48 48l-32 0c-26.5 0-48-21.5-48-48l0-352zM0 272c0-26.5 21.5-48 48-48l32 0c26.5 0 48 21.5 48 48l0 160c0 26.5-21.5 48-48 48l-32 0c-26.5 0-48-21.5-48-48L0 272zM368 96l32 0c26.5 0 48 21.5 48 48l0 288c0 26.5-21.5 48-48 48l-32 0c-26.5 0-48-21.5-48-48l0-288c0-26.5 21.5-48 48-48z"/>
           </svg>
           <h2 class="ms-3 text-xl font-semibold text-gray-900 dark:text-white">
             Stats
           </h2>
         </div>
 
-        <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-          TODO: Implement stas, like AVG, MAX, MIN etc.
-        </p>
+        <div class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
+          <p>Average: <span v-text="averageTemperature"/> °C / <span v-text="averageHumidity"/> %</p>
+          <p>Max: <span v-text="maxTemperature"/> °C / <span v-text="maxHumidity"/> %</p>
+          <p>Min: <span v-text="minTemperature"/> °C / <span v-text="minHumidity"/> %</p>
+        </div>
       </div>
     </div>
   </div>
