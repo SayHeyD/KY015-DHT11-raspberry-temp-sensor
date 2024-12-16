@@ -13,7 +13,7 @@ class DashboardController extends Controller
 
         return Inertia::render('Dashboard/View', [
             // 'devices' => [],
-            'devices' => $devices->load([
+            'devices' => fn () => $devices->load([
                 'temperatures' => function($query) {
                     $query
                         ->where('created_by', '>=', now()->subDay())
