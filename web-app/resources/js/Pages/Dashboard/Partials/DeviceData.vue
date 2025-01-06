@@ -1,5 +1,5 @@
 <script setup>
-import { router } from '@inertiajs/vue3'
+import {router, usePage} from '@inertiajs/vue3'
 import {computed, nextTick, onBeforeMount, onMounted, onUnmounted, ref, watch} from "vue";
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
@@ -17,9 +17,11 @@ import {
 
 ChartJS.register(Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement)
 
+const page = usePage()
+
 const props = defineProps({
     devices: Array,
-    lastEntries: Array
+    selectedDeviceId: Number
 })
 
 const overviewChartOptions = {
@@ -197,13 +199,23 @@ const setSelectedDevice = () => {
         return
     }
 
-    selectedDevice.value = props.devices[0]
+    if (props.selectedDeviceId != null) {
+        for (let i = 0; i++; i < props.devices.length) {
+            if (props.devices[i].id == props.selectedDeviceId) {
+                selectedDevice.value = props.devices[i]
+            }
+        }
+    } else {
+        selectedDevice.value = props.devices[0]
+    }
 }
 
 const refreshTempEntries = () => {
-    // TODO: properties only update after the second refresh
     router.reload({
         only: ['devices'],
+        data: {
+            device: selectedDevice.value.id
+        }
     })
     nextTick(() => {
         dataUpdate()
