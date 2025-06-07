@@ -1,5 +1,5 @@
-# Python 3 virtual environment
-.venv/
+# Agent binaries
+agent/bin
 
 # GPIO files
 .lgd-nfy
