@@ -1,4 +1,3 @@
-import json
 from typing import Final
 from logFormat import LogFormat
 from logLevel import LogLevel
