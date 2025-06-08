@@ -2,6 +2,7 @@ package app
 
 import (
 	"errors"
+	"fmt"
 	"go.uber.org/zap"
 	"log"
 	"syscall"
@@ -33,20 +34,22 @@ func NewApp() *App {
 		err := logger.Sync()
 		// Ignore sync errors if stderr is a cli
 		if err != nil {
-			if !errors.Is(err, syscall.ENOTTY) {
+			if errors.Is(err, syscall.ENOTTY) {
+				sugar.Warn("Failed to sync logger, if stderr is a cli this is expected")
+			} else if errors.Is(err, syscall.EBADF) {
+				sugar.Error(fmt.Sprintf("%s: if this error occurs during tests, it is expected ", err.Error()))
+			} else {
 				sugar.Fatal(err)
 			}
-
-			sugar.Warn("Failed to sync logger, if stderr is a cli this is expected")
 		}
 	}(logger)
 
-	app.SetLogger(sugar)
+	app.setLogger(sugar)
 
 	return app
 }
 
-func (*App) SetLogger(logger *zap.SugaredLogger) {
+func (*App) setLogger(logger *zap.SugaredLogger) {
 	if app.logger == nil {
 		app.logger = logger
 	}
