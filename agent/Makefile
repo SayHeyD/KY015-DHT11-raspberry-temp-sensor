@@ -7,3 +7,9 @@ clean:
 
 run: build
 	@./bin/rtsa
+
+test:
+	@go test -coverprofile=agent_test_coverage.out ./...
+
+coverage: test
+	@go tool cover -html=agent_test_coverage.out

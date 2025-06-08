@@ -1,6 +1,9 @@
 # Agent binaries
 agent/bin
 
+# Golang test coverage file
+agent_test_coverage.out
+
 # GPIO files
 .lgd-nfy
 .lgd-nfy*
