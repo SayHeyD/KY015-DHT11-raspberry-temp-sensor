@@ -21,8 +21,12 @@ func main() {
 	defer func(logger *zap.Logger) {
 		err := logger.Sync()
 		// Ignore sync errors if stderr is a cli
-		if err != nil && !errors.Is(err, syscall.ENOTTY) {
-			sugar.Fatal(err)
+		if err != nil {
+			if !errors.Is(err, syscall.ENOTTY) {
+				sugar.Fatal(err)
+			}
+
+			sugar.Warn("Failed to sync logger, if stderr is a cli this is expected")
 		}
 	}(logger)
 
