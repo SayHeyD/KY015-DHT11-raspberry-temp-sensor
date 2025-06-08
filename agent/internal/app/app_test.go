@@ -18,6 +18,16 @@ func TestAppCreatesSuccessfully(t *testing.T) {
 	t.Log(appToTest)
 }
 
+func TestNewAppDoesNotCreateNewAppInstance(t *testing.T) {
+	newApp := NewApp()
+
+	if appToTest != newApp {
+		t.Error("Apps should be the same")
+	}
+
+	t.Log(newApp)
+}
+
 func TestGetAppLogger(t *testing.T) {
 	logger := appToTest.GetLogger()
 	if logger == nil {
