@@ -1,15 +1,15 @@
 package sensor
 
-type SensorType string
+type Type string
 
 const RaspberryPiGPIODevice = "/dev/gpiochip0"
 
 const (
-	MOCK   SensorType = "mock"
-	DHT_22 SensorType = "dht22"
+	MOCK   Type = "mock"
+	DHT_22 Type = "dht22"
 )
 
-var availableSensors = map[SensorType]string{
+var availableSensors = map[Type]string{
 	MOCK:   "idle",
 	DHT_22: "connected",
 }
@@ -19,7 +19,7 @@ type Sensor interface {
 	Read() (*Data, error)
 }
 
-func NewSensor(sensor SensorType, pin int) (Sensor, error) {
+func NewSensor(sensor Type, pin int) (Sensor, error) {
 
 	var newSensor Sensor
 

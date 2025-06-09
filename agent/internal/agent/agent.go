@@ -28,7 +28,7 @@ func (agent *Agent) start() {
 }
 
 func (agent *Agent) getSensor() {
-	var sensorType sensor.SensorType
+	var sensorType sensor.Type
 
 	if _, err := os.Stat(sensor.RaspberryPiGPIODevice); err == nil {
 		agent.appCtx.GetLogger().Info("GPIO device exists. using DHT22 sensor")
