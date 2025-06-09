@@ -40,6 +40,8 @@ func NewApp() *App {
 				sugar.Warn("Failed to sync logger, if stderr is a cli this is expected")
 			} else if errors.Is(err, syscall.EBADF) {
 				sugar.Error(fmt.Sprintf("%s: if this error occurs during tests, it is expected ", err.Error()))
+			} else if errors.Is(err, syscall.EINVAL) {
+				sugar.Error(fmt.Sprintf("%s", err.Error()))
 			} else {
 				sugar.Fatal(err)
 			}
