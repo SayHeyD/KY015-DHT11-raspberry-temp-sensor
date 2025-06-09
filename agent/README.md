@@ -1,11 +1,32 @@
 # Agent
 
-## Install
+## Installation
 
-### Prerequisites
-
-Install dependencies:
+Inside the `./agent` directory:
 
 ```shell
-sudo apt udpate && apt install libgpiod-dev
+sudo ./scripts/install.sh
+```
+
+## Development setup
+
+1. Create virtual environment
+  ```shell
+  python3 -m venv ./.venv
+  ```
+2. Activate venv
+  ```shell
+  source ./.venv/bin/activate
+  ```
+3. Install required modules
+  ```shell
+  pip3 install -r requirements.txt
+  ```
+4. Set env variables and start agent
+  ```shell
+  export RTSA_SERVER_HOST="https://127.0.0.1:8443" && \
+  export RTSA_API_TOKEN="1u423d4ja5s5d54123%ç*hkujasd123hjkas1231fhjk123kh312..." && \
+  export RTSA_GPIO_PIN_NUMBER=4 && \
+  export RTSA_DEVICE_ID="187ea15b-ee09-4d5f-bf08-09a8c6a5589a" && \
+  python3 main.py
 ```
