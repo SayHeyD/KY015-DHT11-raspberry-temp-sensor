@@ -34,7 +34,7 @@ function checkRoot() {
 
 # Check if device is a raspberry
 function checkDevice() {
-  modelInfo=$(cat /proc/device-tree/model)
+  modelInfo=$(tr -d '\0' < /proc/device-tree/model)
   if [ "$modelInfo" != "Raspberry Pi*" ]; then
     logFatal "Can only be installed on a raspberry pi."
   fi
