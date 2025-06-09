@@ -79,7 +79,7 @@ function createUserAndGroup() {
   if id "$ServiceUserName" >/dev/null 2>&1; then
     logInfo "User '$ServiceUserName' found."
   else
-    useradd -s "/usr/bin/bash" -a -G "$ServiceUserName" "$ServiceUserName"
+    useradd -s "/usr/bin/bash" -G "$ServiceUserName" "$ServiceUserName"
     logInfo "Created user '$ServiceUserName'"
   fi
 }
@@ -89,9 +89,9 @@ function installApp() {
   mkdir -p "$AppPath"
 
   # Install app files
-  cp ../main.py "$AppPath/main.py"
-  cp ../requirements.txt "$AppPath/requirements.txt"
-  cp ../stubs/config.env "$AppPath/config.env"
+  cp ./main.py "$AppPath/main.py"
+  cp ./requirements.txt "$AppPath/requirements.txt"
+  cp ./stubs/config.env "$AppPath/config.env"
 
   logInfo "Created application directory."
 
