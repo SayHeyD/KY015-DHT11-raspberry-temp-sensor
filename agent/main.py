@@ -27,16 +27,19 @@ try:
 except KeyError:
     # Env variable validation and default values
     if SERVER_HOST is None:
-        raise Exception("RTSA_SERVER_HOST environment variable must be set. Example: http://192.168.1.164:8443")
+        print("RTSA_SERVER_HOST environment variable must be set. Example: http://192.168.1.164:8443")
+        exit(1)
 
     if API_TOKEN is None:
-        raise Exception("RTSA_API_TOKEN environment variable must be set.")
+        print("RTSA_API_TOKEN environment variable must be set.")
+        exit(1)
 
     if GPIO_PIN_NUMBER is None:
         GPIO_PIN_NUMBER = 4
 
     if DEVICE_ID is None:
-        raise Exception("RTSA_DEVICE_ID environment variable must be set. The device ID can be fetched from the webapp UI")
+        print("RTSA_DEVICE_ID environment variable must be set. The device ID can be fetched from the webapp UI")
+        exit(1)
 
 # Initialize DHT sensor connection
 dhtDevice = adafruit_dht.DHT22(board["D" + GPIO_PIN_NUMBER])
