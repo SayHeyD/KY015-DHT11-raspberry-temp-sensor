@@ -95,6 +95,7 @@ function installApp() {
 
   logInfo "Created application directory."
 
+  logInfo "Creating python3 virtual environment"
   # Create virtual environment
   python3 -m venv "$AppPath/.venv"
   logInfo "Created python virtual environment."
@@ -114,7 +115,7 @@ function installService() {
 
 function configureApp() {
   logInfo "Setup initial config".
-  vi "$AppPath/config.env"
+  nano "$AppPath/config.env"
   logInfo "Initial config"
 }
 
