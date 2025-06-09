@@ -35,7 +35,7 @@ function checkRoot() {
 # Check if device is a raspberry
 function checkDevice() {
   modelInfo=$(tr -d '\0' < /proc/device-tree/model)
-  if [[ "$modelInfo" != "Raspberry Pi*" ]]; then
+  if [[ "$modelInfo" != "Raspberry "Pi* ]]; then
     logFatal "Can only be installed on a raspberry pi."
   fi
 
@@ -45,7 +45,7 @@ function checkDevice() {
 # Check if required packages are install
 function checkPackages() {
   pythonVersion="$(python3 --version)"
-  if [[ "$pythonVersion" != "Python 3.11*" ]]; then
+  if [[ "$pythonVersion" != "Python 3.11"* ]]; then
     logFatal "Python version 3.11 or newer must be installed!"
   fi
 }
