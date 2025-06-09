@@ -25,6 +25,7 @@ func NewAgent() *Agent {
 
 func (agent *Agent) start() {
 	agent.startedAt = time.Now()
+	go agent.run()
 }
 
 func (agent *Agent) getSensor() {
