@@ -9,26 +9,34 @@ import requests
 
 ## Environment variables
 
-# Connection information
-SERVER_HOST = os.environ['RTSA_SERVER_HOST']
-API_TOKEN = os.environ['RTSA_API_TOKEN']
+SERVER_HOST = None
+API_TOKEN = None
+GPIO_PIN_NUMBER = None
+DEVICE_ID = None
 
-# Device information
-GPIO_PIN_NUMBER = os.environ['RTSA_GPIO_PIN_NUMBER']
-DEVICE_ID = os.environ['RTSA_DEVICE_ID']
+try:
 
-# Env variable validation and default values
-if SERVER_HOST is None:
-    raise Exception("RTSA_SERVER_HOST environment variable must be set. Example: http://192.168.1.164:8443")
+    # Connection information
+    SERVER_HOST = os.environ['RTSA_SERVER_HOST']
+    API_TOKEN = os.environ['RTSA_API_TOKEN']
 
-if API_TOKEN is None:
-    raise Exception("RTSA_API_TOKEN environment variable must be set.")
+    # Device information
+    GPIO_PIN_NUMBER = os.environ['RTSA_GPIO_PIN_NUMBER']
+    DEVICE_ID = os.environ['RTSA_DEVICE_ID']
 
-if GPIO_PIN_NUMBER is None:
-    GPIO_PIN_NUMBER = 4
+except KeyError:
+    # Env variable validation and default values
+    if SERVER_HOST is None:
+        raise Exception("RTSA_SERVER_HOST environment variable must be set. Example: http://192.168.1.164:8443")
 
-if DEVICE_ID is None:
-    raise Exception("RTSA_DEVICE_ID environment variable must be set. The device ID can be fetched from the webapp UI")
+    if API_TOKEN is None:
+        raise Exception("RTSA_API_TOKEN environment variable must be set.")
+
+    if GPIO_PIN_NUMBER is None:
+        GPIO_PIN_NUMBER = 4
+
+    if DEVICE_ID is None:
+        raise Exception("RTSA_DEVICE_ID environment variable must be set. The device ID can be fetched from the webapp UI")
 
 # Initialize DHT sensor connection
 dhtDevice = adafruit_dht.DHT22(board["D" + GPIO_PIN_NUMBER])
