@@ -11,7 +11,9 @@ import (
 var app *App
 
 type App struct {
-	logger *zap.SugaredLogger
+	logger      *zap.SugaredLogger
+	mockEnabled bool
+	gpioPin     int
 }
 
 func NewApp() *App {
@@ -57,4 +59,20 @@ func (*App) setLogger(logger *zap.SugaredLogger) {
 
 func (*App) GetLogger() *zap.SugaredLogger {
 	return app.logger
+}
+
+func (*App) SetMockEnabled(mockEnabled bool) {
+	app.mockEnabled = mockEnabled
+}
+
+func (*App) GetMockEnabled() bool {
+	return app.mockEnabled
+}
+
+func (*App) GetGPIOPin() int {
+	return app.gpioPin
+}
+
+func (*App) SetGPIOPin(gpioPin int) {
+	app.gpioPin = gpioPin
 }
