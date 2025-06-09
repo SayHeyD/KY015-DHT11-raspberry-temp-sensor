@@ -17,7 +17,7 @@ var (
 		Short: "rtsa - raspberry temperature sensor agent",
 		Long:  `rtsa is a service designed to read data from a temperature sensor like a DHT22 and send it to a server.`,
 		Run: func(cmd *cobra.Command, args []string) {
-			agent.NewAgent()
+			agent.NewAgent().Start()
 		},
 	}
 )

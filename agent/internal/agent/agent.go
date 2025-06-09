@@ -18,14 +18,12 @@ func NewAgent() *Agent {
 		appCtx: app.NewApp(),
 	}
 
-	newAgent.start()
-
 	return newAgent
 }
 
-func (agent *Agent) start() {
+func (agent *Agent) Start() {
 	agent.startedAt = time.Now()
-	go agent.run()
+	agent.run()
 }
 
 func (agent *Agent) getSensor() {
@@ -71,6 +69,7 @@ func (agent *Agent) run() {
 
 	for {
 		agent.readData()
+		time.Sleep(time.Second * 10)
 	}
 }
 
