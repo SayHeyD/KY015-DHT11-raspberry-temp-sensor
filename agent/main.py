@@ -52,13 +52,23 @@ while True:
             "humidity": humidity,
         }))
 
+        #  Wait for about a minute
+        time.sleep(55.0)
+
     except RuntimeError as error:
-        # Errors happen fairly often, DHT's are hard to read, just keep going
+        # Errors happen fairly often, DHT's are hard to read, keep going
         print(error.args[0])
         time.sleep(0.5)
         continue
+    except requests.exceptions.HTTPError as error:
+        print("HTTP error occurred")
+        print(error.response.text)
+        time.sleep(10)
+        continue
+    except KeyboardInterrupt:
+        dhtDevice.exit()
+        print("Interrupted by user")
+        exit(0)
     except Exception as error:
         dhtDevice.exit()
         raise error
-
-    time.sleep(59.0)
