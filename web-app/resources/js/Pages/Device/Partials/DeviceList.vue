@@ -14,7 +14,6 @@ const deviceToDelete = ref(null);
 const deleteModalActive = ref(false);
 
 const showDeleteModal = (device) => {
-    console.log('whuat');
     deviceToDelete.value = device;
     deleteModalActive.value = !deleteModalActive.value;
 }
@@ -32,7 +31,7 @@ const deleteDevice = () => {
       <PrimaryButton class="mx-2" :href="route('devices.show', device.id)">
         Show
       </PrimaryButton>
-      <DangerButton class="mx-2" @click="console.log('???????'); showDeleteModal(device)">
+      <DangerButton class="mx-2" @click="showDeleteModal(device)">
         Delete
       </DangerButton>
     </div>
