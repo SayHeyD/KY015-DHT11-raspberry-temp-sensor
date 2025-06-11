@@ -1,8 +1,5 @@
-# Agent binaries
-agent/bin
-
-# Golang test coverage file
-agent_test_coverage.out
+# Python vevn
+.venv
 
 # GPIO files
 .lgd-nfy
