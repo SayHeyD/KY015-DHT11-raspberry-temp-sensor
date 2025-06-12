@@ -35,18 +35,21 @@ class DeviceController extends Controller
         $user = Auth::user();
         $device = $user->devices()->create($request->validated());
 
-        return redirect()->route('devices.show', $device->id);
+        return redirect()->route('devices.show', $device->id)
+            ->banner("Created device '$device->name'");
     }
 
     public function update(Device $device, UpdateDeviceRequest $request)
     {
         $device->update($request->validated());
-        return redirect()->route('devices.show', $device);
+        return redirect()->route('devices.show', $device)
+            ->banner("Updated device '$device->name'");
     }
 
     public function destroy(Device $device)
     {
         $device->delete();
-        return redirect()->route('devices.index');
+        return redirect()->route('devices.index')
+            ->banner("Deleted device '$device->name'");
     }
 }

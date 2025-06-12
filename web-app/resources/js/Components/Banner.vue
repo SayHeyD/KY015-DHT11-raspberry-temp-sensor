@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watchEffect } from 'vue';
+import {onMounted, ref, watchEffect} from 'vue';
 import { usePage } from '@inertiajs/vue3';
 
 const page = usePage();
@@ -12,6 +12,10 @@ watchEffect(async () => {
     message.value = page.props.jetstream.flash?.banner || '';
     show.value = true;
 });
+
+onMounted(() => {
+  console.log(page.props.jetstream.flash)
+})
 </script>
 
 <template>
