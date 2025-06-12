@@ -1,11 +1,8 @@
 <script setup lang="ts">
 
 import AppLayout from "@/Layouts/AppLayout.vue";
-import DangerButton from "@/Components/DangerButton.vue";
-import ConfirmationModal from "@/Components/ConfirmationModal.vue";
-import {ref} from "vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import {router, useForm} from "@inertiajs/vue3";
+import {useForm} from "@inertiajs/vue3";
 import TextInput from "@/Components/TextInput.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
