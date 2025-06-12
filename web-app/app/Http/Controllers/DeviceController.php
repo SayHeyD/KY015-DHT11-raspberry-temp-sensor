@@ -33,9 +33,9 @@ class DeviceController extends Controller
     public function store(StoreDeviceRequest $request)
     {
         $user = Auth::user();
-        $user->devices()->create($request->validated());
+        $device = $user->devices()->create($request->validated());
 
-        return redirect()->route('devices.index');
+        return redirect()->route('devices.show', $device->id);
     }
 
     public function update(Device $device, UpdateDeviceRequest $request)
