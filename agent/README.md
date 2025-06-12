@@ -19,9 +19,17 @@ sudo ./scripts/install.sh
   source ./.venv/bin/activate
   ```
 3. Install required modules
+  For laptop development do not install dependencies for the DHT Sensor
   ```shell
-  pip3 install -r requirements.txt
+  pip3 install .
   ```
+
+  Install all packages including the RPi.GPIO and Adafruit DHT modules
+  ```shell
+  pip3 install .[full]
+  ```
+
+
 4. Set env variables and start agent
   ```shell
   export RTSA_SERVER_HOST="https://127.0.0.1:8443" && \

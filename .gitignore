@@ -1,5 +1,7 @@
-# Python vevn
+# Python
 .venv
+build/
+*.egg-info/
 
 # GPIO files
 .lgd-nfy
