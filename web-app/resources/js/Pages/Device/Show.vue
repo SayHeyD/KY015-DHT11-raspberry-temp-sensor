@@ -32,7 +32,7 @@ const form = useForm({
     name: props.device.name,
 })
 
-const updateProfileInformation = () => {
+const updateDeviceInformation = () => {
     form.put(route('devices.update', props.device.id))
 }
 
@@ -71,13 +71,13 @@ const updateProfileInformation = () => {
 
     <div class="py-12 text-gray-800 dark:text-gray-200">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <FormSection @submitted="updateProfileInformation()">
+        <FormSection @submitted="updateDeviceInformation()">
           <template #title>
             Device Information
           </template>
 
           <template #description>
-            Update your devices' profile information and email address.
+            Update your devices' information.
           </template>
 
           <template #form>

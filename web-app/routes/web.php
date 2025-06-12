@@ -17,7 +17,7 @@ Route::middleware([
     Route::prefix('/devices')->name('devices.')->group(function () {
         Route::get('/', [DeviceController::class, 'index'])->name('index');
         Route::post('/', [DeviceController::class, 'store'])->name('store');
-        Route::post('/new', [DeviceController::class, 'create'])->name('create');
+        Route::get('/new', [DeviceController::class, 'create'])->name('create');
         Route::get('/{device}', [DeviceController::class, 'show'])->name('show');
         Route::get('/{device}', [DeviceController::class, 'show'])->name('show');
         Route::put('/{device}', [DeviceController::class, 'update'])->name('update');

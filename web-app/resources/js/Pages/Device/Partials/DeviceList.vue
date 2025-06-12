@@ -25,7 +25,7 @@ const deleteDevice = () => {
 </script>
 
 <template>
-  <div :key="device.id" class="flex items-center justify-between p-4 w-full" v-for="device in devices">
+  <div v-if="devices.length > 0" :key="device.id" v-for="device in devices" class="bg-white dark:bg-gray-800 flex items-center justify-between p-4 w-full my-4 shadow-xl sm:rounded-lg">
     <p v-text="device.name" />
     <div class="flex justify-around items-center">
       <PrimaryButton class="mx-2" :href="route('devices.show', device.id)">
@@ -35,6 +35,9 @@ const deleteDevice = () => {
         Delete
       </DangerButton>
     </div>
+  </div>
+  <div v-else>
+    <p>No devices found</p>
   </div>
 
   <confirmation-modal :show="deleteModalActive" @close="deleteModalActive = false">
