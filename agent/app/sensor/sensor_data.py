@@ -20,3 +20,6 @@ class SensorData:
 
     def get_timestamp(self):
         return self.__timestamp
+
+    def __str__(self):
+        return "SensorData[temperature: " + str(self.__temperature) + ", humidity: " + str(self.__humidity) + ", timestamp: " + str(self.__timestamp) + "]"
