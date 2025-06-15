@@ -4,10 +4,10 @@ from numbers import Number
 
 class SensorData:
     __temperature: float = 0
-    __humidity: float = 0.0
+    __humidity: float = 0
     __timestamp: datetime
 
-    def __init__(self, temperature: float = 0, humidity: float = 0):
+    def __init__(self, temperature: float, humidity: float):
         self.__temperature = temperature
         self.__humidity = humidity
         self.__timestamp = datetime.now()
