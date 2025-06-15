@@ -1,12 +1,12 @@
 import time
 
 from app import log
-from app.sensor.sensor import ISensor
+from app.sensor import create_sensor
 
 # Setup logger
 logger = log.setup("rtsa")
 
-sensor = ISensor.create()
+sensor = create_sensor.create()
 
 while True:
     sensor.read()

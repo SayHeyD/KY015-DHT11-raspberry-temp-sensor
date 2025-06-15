@@ -1,8 +1,8 @@
 import datetime
 import time
 
-from sensor import ISensor
-from sensor_data import SensorData
+from app.sensor.sensor import ISensor
+from app.sensor.sensor_data import SensorData
 from app import app
 
 # Optional module variable definitions
@@ -31,11 +31,11 @@ class DHT22Sensor(ISensor):
             exit(1)
 
     @property
-    def __data(self):
+    def _data(self):
         return self.__sensor_data
 
-    @__data.setter
-    def __data(self, value):
+    @_data.setter
+    def _data(self, value):
         self.__sensor_data = value
 
     def read(self):
