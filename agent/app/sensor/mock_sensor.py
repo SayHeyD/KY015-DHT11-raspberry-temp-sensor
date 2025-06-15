@@ -90,8 +90,8 @@ class MockSensor(ISensor):
                 'bottom': bottom_humidity,
             }
 
-            random_temp = random.randint(random_temp_range['bottom'], random_temp_range['top'])
+            random_temp = random.uniform(random_temp_range['bottom'], random_temp_range['top'])
             random_humidity = random.uniform(random_humidity_range['bottom'], random_humidity_range['top'])
 
-            self._data = SensorData(random_temp, float("{:.2f}".format(random_humidity)))
+            self._data = SensorData(float("{:.1f}".format(random_temp)), float("{:.2f}".format(random_humidity)))
             return self._data
