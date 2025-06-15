@@ -62,7 +62,7 @@ class DHT22Sensor(ISensor):
                 # Errors happen fairly often, DHT's are hard to read, keep going
                 self.__logger.warning(
                     'Could not read sensor data, try {attempt} / 15: {error_msg}'
-                    .format(attempt=attempt, error_msg=error.args[0])
+                    .format(attempt=attempt + 1, error_msg=error.args[0])
                 )
                 time.sleep(0.5)
                 continue
