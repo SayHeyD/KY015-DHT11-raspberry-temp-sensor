@@ -50,10 +50,10 @@ def __get_env_vars():
     except KeyError:
         env_var_missing = False
 
-        __logger.info("Server Host: " + __server_host)
-        __logger.info("API Token: " + __api_token)
-        __logger.info("Device Id: " + __device_id)
-        __logger.info("GPIO Pin Number: " + str(__gpio_pin_number))
+        __logger.debug("Server Host: " + __server_host)
+        __logger.debug("API Token: " + __api_token)
+        __logger.debug("Device Id: " + __device_id)
+        __logger.debug("GPIO Pin Number: " + str(__gpio_pin_number))
 
         # Env variable validation and default values
         if __gpio_pin_number == 0:
