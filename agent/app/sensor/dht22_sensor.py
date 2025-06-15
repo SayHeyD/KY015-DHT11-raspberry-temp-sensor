@@ -40,7 +40,7 @@ class DHT22Sensor(ISensor):
     def read(self):
         pin_name = "D{pin}".format(pin=app.get_gpio_pin())
         # Initialize DHT sensor connection
-        dht_device = adafruit_dht.DHT22(getattr(board, pin_name))
+        dht_device = adafruit_dht.DHT22(getattr(board, pin_name), use_pulseio=False)
 
         for attempt in range(15):
 
