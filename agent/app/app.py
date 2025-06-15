@@ -3,6 +3,7 @@ import os
 from numbers import Number
 
 from app.api import api
+from app.api.api import Api
 
 __configured: bool = False
 
