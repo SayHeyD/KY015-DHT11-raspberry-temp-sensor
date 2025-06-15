@@ -22,23 +22,29 @@ class MockSensor(ISensor):
         self.__sensor_data = value
 
     def read(self):
-        # Check if data was already measured successfully in the last minute
+        self.__logger.debug('Reading mock sensor data...')
         now_minus_one_minute = datetime.datetime.now() - datetime.timedelta(minutes=1)
 
+        self.__logger.debug('Data: ' + str(self._data))
         if self._data is not None:
-            data_is_newer_than_one_minute = self._data.get_timestamp() > now_minus_one_minute
+            data_age_is_less_than_one_minute = self._data.get_timestamp() > now_minus_one_minute
+            self.__logger.debug('Data age: ' + str(self._data.get_timestamp()))
         else:
-            data_is_newer_than_one_minute = False
+            data_age_is_less_than_one_minute = False
 
         # Return the previous measurement if data is newer than one minute
-        if data_is_newer_than_one_minute and self._data.get_timestamp() is not None:
+        if data_age_is_less_than_one_minute:
             self.__logger.info(
-                'Data is not older than 1 minute, returning previous measurement: {temp} °C, {humidity:.2f} %'
+                'Data is less than 1 minute old, returning previous measurement: {temp} °C, {humidity:.2f} %'
                 .format(temp=self._data.get_temperature(), humidity=self._data.get_humidity())
             )
             return self._data
 
         self.__generate_mock_data()
+        self.__logger.info(
+            'Data is older than 1 minute, new measurement data: {temp} °C, {humidity:.2f} %'
+            .format(temp=self._data.get_temperature(), humidity=self._data.get_humidity())
+        )
         return self._data
 
     def __generate_mock_data(self):
