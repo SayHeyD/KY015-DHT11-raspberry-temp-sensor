@@ -30,7 +30,7 @@ sudo ./scripts/install.sh
   ```
 
 
-4. Set env variables and start agent
+4. Set env variables and start agent. **INFO** must be run as root on raspberry
   ```shell
   export RTSA_SERVER_HOST="https://127.0.0.1:8443" && \
   export RTSA_API_TOKEN="1u423d4ja5s5d54123%ç*hkujasd123hjkas1231fhjk123kh312..." && \
