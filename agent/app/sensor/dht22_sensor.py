@@ -77,7 +77,7 @@ class DHT22Sensor(ISensor):
                     'Could not read sensor data, try {attempt} / 15: {error_msg}'
                     .format(attempt=attempt + 1, error_msg=error.args[0])
                 )
-                time.sleep(0.1)
+                time.sleep(2.0)
                 continue
             except Exception as error:
                 # Catchall to cleanly terminate sensor connection on an unexpected exception
