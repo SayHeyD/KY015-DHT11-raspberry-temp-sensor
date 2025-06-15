@@ -42,11 +42,18 @@ def __get_env_vars():
         __api_token = os.environ['RTSA_API_TOKEN']
 
         # Device information
-        __gpio_pin_number = os.environ['RTSA_GPIO_PIN_NUMBER']
         __device_id = os.environ['RTSA_DEVICE_ID']
+
+        # Optional device information
+        __gpio_pin_number = os.environ['RTSA_GPIO_PIN_NUMBER']
 
     except KeyError:
         env_var_missing = False
+
+        __logger.info("Server Host: " + __server_host)
+        __logger.info("API Token: " + __api_token)
+        __logger.info("Device Id: " + __device_id)
+        __logger.info("GPIO Pin Number: " + str(__gpio_pin_number))
 
         # Env variable validation and default values
         if __gpio_pin_number == 0:
