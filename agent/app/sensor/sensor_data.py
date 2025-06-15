@@ -3,11 +3,11 @@ from numbers import Number
 
 
 class SensorData:
-    __temperature: Number = 0
-    __humidity: Number = 0.0
+    __temperature: float = 0
+    __humidity: float = 0.0
     __timestamp: datetime
 
-    def __init__(self, temperature: Number, humidity: Number):
+    def __init__(self, temperature: float = 0, humidity: float = 0):
         self.__temperature = temperature
         self.__humidity = humidity
         self.__timestamp = datetime.now()
