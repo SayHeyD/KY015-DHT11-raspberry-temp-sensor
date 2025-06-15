@@ -14,7 +14,7 @@ sudo ./scripts/install.sh
   ```shell
   python3 -m venv ./.venv
   ```
-2. Activate venv
+2. Activate venv. **INFO** must be run as root on raspberry
   ```shell
   source ./.venv/bin/activate
   ```
