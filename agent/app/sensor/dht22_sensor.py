@@ -49,10 +49,19 @@ class DHT22Sensor(ISensor):
                 # Read and store data
                 self._data = SensorData(dht_device.temperature, dht_device.humidity)
 
+                # Sanitize log parameters in case of failed read
+                if self._data is None:
+                    log_temp = "N/A"
+                    log_humidity = "N/A"
+                else:
+                    log_temp = self._data.get_temperature()
+                    log_humidity = self._data.get_humidity()
+
+
                 # Log the values
                 self.__logger.info(
                     'Data was read successfully: {temp} °C, {humidity:.2f} %'
-                    .format(temp=self._data.get_temperature(), humidity=self._data.get_humidity())
+                    .format(temp=log_temp, humidity=log_humidity)
                 )
 
                 dht_device.exit()
