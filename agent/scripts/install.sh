@@ -101,7 +101,7 @@ function installApp() {
   logInfo "Created python virtual environment."
 
   # Install dependencies
-  source "$AppPath/.venv/bin/activate" && pip3 install -r requirements.txt
+  source "$AppPath/.venv/bin/activate" && pip3 install .[full]
   logInfo "Installed dependencies"
 
   # Set file permissions
