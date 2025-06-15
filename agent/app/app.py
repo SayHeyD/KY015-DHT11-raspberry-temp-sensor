@@ -46,21 +46,26 @@ def __get_env_vars():
         __device_id = os.environ['RTSA_DEVICE_ID']
 
     except KeyError:
+        env_var_missing = False
+
         # Env variable validation and default values
-        if __server_host is None:
-            __logger.critical("RTSA_SERVER_HOST environment variable must be set. Example: http://192.168.1.164:8443")
-            exit(1)
-
-        if __api_token is None:
-            __logger.critical("RTSA_API_TOKEN environment variable must be set.")
-            exit(1)
-
-        if __gpio_pin_number is None:
+        if __gpio_pin_number == 0:
             __logger.warning("RTSA_GPIO_PIN_NUMBER is not set explicitly. Using GPIO pin with number 4 by default.")
             __gpio_pin_number = 4
 
-        if __device_id is None:
+        if __server_host == "":
+            __logger.critical("RTSA_SERVER_HOST environment variable must be set. Example: http://192.168.1.164:8443")
+            env_var_missing = True
+
+        if __api_token == "":
+            __logger.critical("RTSA_API_TOKEN environment variable must be set.")
+            env_var_missing = True
+
+        if __device_id == "":
             __logger.critical("RTSA_DEVICE_ID environment variable must be set. The device ID can be fetched from the webapp UI")
+            env_var_missing = True
+
+        if env_var_missing:
             exit(1)
 
 def __init_api():
