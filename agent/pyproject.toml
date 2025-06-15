@@ -1,6 +1,12 @@
 [project]
 name = "rtsa"
 version = "0.0.0"
+requires-python = ">= 3.11"
+readme = "README.md"
+license = "MIT"
+authors = [
+    {name = "David Docampo", email = "david@docampo.ch"},
+]
 dependencies = [
     "binho-host-adapter==0.1.6",
     "certifi==2025.4.26",
@@ -27,3 +33,10 @@ full = [
     "Adafruit-PureIO==1.1.11",
     "RPi.GPIO==0.7.1",
 ]
+
+[tool.setuptools]
+packages = ["app"]
+
+[project.urls]
+Repository = "https://github.com/SayHeyD/raspberry-temp-sensor.git"
+Issues = "https://github.com/SayHeyD/raspberry-temp-sensor/issues"
