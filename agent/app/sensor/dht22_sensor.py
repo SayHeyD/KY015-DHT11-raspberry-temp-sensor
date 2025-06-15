@@ -39,19 +39,6 @@ class DHT22Sensor(ISensor):
         self.__sensor_data = value
 
     def read(self):
-        # Check if data was already measured successfully in the last minute
-        now_minus_one_minute = datetime.datetime.now() - datetime.timedelta(minutes=1)
-        data_is_newer_than_one_minute = self._data.get_timestamp() > now_minus_one_minute
-
-        self.__logger.info(
-            'Data is not older than 1 minute, returning previous measurement: {temp} °C, {humidity:.2f} %'
-            .format(temp=self._data.get_temperature(), humidity=self._data.get_humidity())
-        )
-
-        # Return previous measurement if data is newer than one minute
-        if self._data.get_timestamp() is not None and data_is_newer_than_one_minute:
-            return self._data
-
         # Initialize DHT sensor connection
         dht_device = adafruit_dht.DHT22(board["D" + app.get_gpio_pin()])
 

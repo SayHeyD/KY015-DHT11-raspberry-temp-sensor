@@ -1,5 +1,5 @@
-import datetime
 import random
+import time
 
 from app import app
 from app.sensor.sensor import ISensor
@@ -23,57 +23,75 @@ class MockSensor(ISensor):
 
     def read(self):
         self.__logger.debug('Reading mock sensor data...')
-        now_minus_one_minute = datetime.datetime.now() - datetime.timedelta(minutes=1)
 
-        self.__logger.debug('Data: ' + str(self._data))
-        if self._data is not None:
-            data_age_is_less_than_one_minute = self._data.get_timestamp() > now_minus_one_minute
-            self.__logger.debug('Data age: ' + str(self._data.get_timestamp()))
-        else:
-            data_age_is_less_than_one_minute = False
+        for attempt in range(15):
+            # Simulate failed reads occasionally
+            if random.randint(0, 100) > 98:
+                self.__logger.warning(
+                    'Could not read sensor data, try {attempt} / 15: {error_msg}'
+                    .format(attempt=attempt, error_msg="Simulated failure")
+                )
+                time.sleep(0.5)
+                continue
 
-        # Return the previous measurement if data is newer than one minute
-        if data_age_is_less_than_one_minute:
+            self.__generate_mock_data()
             self.__logger.info(
-                'Data is less than 1 minute old, returning previous measurement: {temp} °C, {humidity:.2f} %'
+                'Measurement data: {temp} °C, {humidity:.2f} %'
                 .format(temp=self._data.get_temperature(), humidity=self._data.get_humidity())
             )
             return self._data
 
-        self.__generate_mock_data()
-        self.__logger.info(
-            'Data is older than 1 minute, new measurement data: {temp} °C, {humidity:.2f} %'
-            .format(temp=self._data.get_temperature(), humidity=self._data.get_humidity())
-        )
-        return self._data
+        self.__logger.error('Could not read sensor data, no more retries')
+        return None
 
     def __generate_mock_data(self):
+
+        top_temp_limit = 45
+        bottom_temp_limit = -25
+
+        top_humidity_limit = 100
+        bottom_humidity_limit = 0
+
         if self._data is None:
-            random_temp = random.randint(-25, 45)
-            random_humidity = random.uniform(0, 100)
+            random_temp = random.randint(bottom_temp_limit, top_temp_limit)
+            random_humidity = random.uniform(bottom_humidity_limit, top_humidity_limit)
 
             self._data = SensorData(random_temp, float("{:.2f}".format(random_humidity)))
 
-            # Log the values
-            self.__logger.info(
-                'Data was read successfully: {temp} °C, {humidity:.2f} %'
-                .format(temp=self._data.get_temperature(), humidity=self._data.get_humidity())
-            )
-            return
+            return self._data
 
-        if self._data is not None:
+        else:
+
+            top_temp = self._data.get_temperature() + 2
+            bottom_temp = self._data.get_temperature() - 2
+
+            if top_temp > top_temp_limit:
+                top_temp = top_temp_limit
+
+            if bottom_temp < bottom_temp_limit:
+                bottom_temp = bottom_temp_limit
+
+            top_humidity = self._data.get_humidity() + 0.5
+            bottom_humidity = self._data.get_humidity() - 0.5
+
+            if top_humidity > top_humidity_limit:
+                top_humidity = top_humidity_limit
+
+            if bottom_humidity < bottom_humidity_limit:
+                bottom_humidity = bottom_humidity_limit
+
             random_temp_range = {
-                'top': self._data.get_temperature() + 2,
-                'bottom': self._data.get_temperature() - 2
+                'top': top_temp,
+                'bottom': bottom_temp,
             }
 
             random_humidity_range = {
-                'top': self._data.get_humidity() + 0.5,
-                'bottom': self._data.get_humidity() - 0.5
+                'top': top_humidity,
+                'bottom': bottom_humidity,
             }
 
             random_temp = random.randint(random_temp_range['bottom'], random_temp_range['top'])
             random_humidity = random.uniform(random_humidity_range['bottom'], random_humidity_range['top'])
 
             self._data = SensorData(random_temp, float("{:.2f}".format(random_humidity)))
-            return
+            return self._data
