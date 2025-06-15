@@ -1,4 +1,3 @@
-import datetime
 import time
 
 from app.sensor.sensor import ISensor
