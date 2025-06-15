@@ -56,7 +56,7 @@ class MockSensor(ISensor):
             random_temp = random.uniform(bottom_temp_limit, top_temp_limit)
             random_humidity = random.uniform(bottom_humidity_limit, top_humidity_limit)
 
-            self._data = SensorData(float("{:.1f}".format(random_temp)), float("{:.2f}".format(random_humidity)))
+            self._data = SensorData(float("{:.1f}".format(random_temp)), float("{:.1f}".format(random_humidity)))
 
             return self._data
 
@@ -93,5 +93,5 @@ class MockSensor(ISensor):
             random_temp = random.uniform(random_temp_range['bottom'], random_temp_range['top'])
             random_humidity = random.uniform(random_humidity_range['bottom'], random_humidity_range['top'])
 
-            self._data = SensorData(float("{:.1f}".format(random_temp)), float("{:.2f}".format(random_humidity)))
+            self._data = SensorData(float("{:.1f}".format(random_temp)), float("{:.1f}".format(random_humidity)))
             return self._data
