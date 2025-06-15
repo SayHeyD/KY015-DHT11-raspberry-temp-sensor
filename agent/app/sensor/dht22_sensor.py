@@ -55,6 +55,7 @@ class DHT22Sensor(ISensor):
                     .format(temp=self._data.get_temperature(), humidity=self._data.get_humidity())
                 )
 
+                dht_device.exit()
                 # Exit loop on successful read
                 return self._data
 
@@ -71,5 +72,6 @@ class DHT22Sensor(ISensor):
                 dht_device.exit()
                 raise error
 
+        dht_device.exit()
         self.__logger.error('Could not read sensor data, no more retries')
         return None
