@@ -1,3 +1,4 @@
+import logging
 import time
 
 from app import log
@@ -13,7 +14,7 @@ sensor = create_sensor.create()
 while True:
     try:
         sensor.read()
-        time.sleep(60)
+        time.sleep(5)
     except KeyboardInterrupt as error:
         print("")
         logger.info("User stopped execution manually")
