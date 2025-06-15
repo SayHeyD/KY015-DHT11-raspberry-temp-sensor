@@ -46,17 +46,17 @@ class MockSensor(ISensor):
 
     def __generate_mock_data(self):
 
-        top_temp_limit = 45
-        bottom_temp_limit = -25
+        top_temp_limit = 45.0
+        bottom_temp_limit = -25.0
 
         top_humidity_limit = 100
         bottom_humidity_limit = 0
 
         if self._data is None:
-            random_temp = random.randint(bottom_temp_limit, top_temp_limit)
+            random_temp = random.uniform(bottom_temp_limit, top_temp_limit)
             random_humidity = random.uniform(bottom_humidity_limit, top_humidity_limit)
 
-            self._data = SensorData(random_temp, float("{:.2f}".format(random_humidity)))
+            self._data = SensorData(float("{:.1f}".format(random_temp)), float("{:.2f}".format(random_humidity)))
 
             return self._data
 
