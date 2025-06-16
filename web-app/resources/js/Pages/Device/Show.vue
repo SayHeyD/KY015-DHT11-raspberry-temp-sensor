@@ -5,16 +5,19 @@ import DangerButton from "@/Components/DangerButton.vue";
 import ConfirmationModal from "@/Components/ConfirmationModal.vue";
 import {ref} from "vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import {Link, router, useForm} from "@inertiajs/vue3";
+import {router, useForm} from "@inertiajs/vue3";
 import TextInput from "@/Components/TextInput.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
-import SecondaryButton from "@/Components/SecondaryButton.vue";
 import FormSection from "@/Components/FormSection.vue";
 import ActionMessage from "@/Components/ActionMessage.vue";
+import ApiTokenManager from "@/Pages/API/Partials/ApiTokenManager.vue";
 
 const props = defineProps({
-    device: Object
+    device: Object,
+    tokens: Array,
+    availablePermissions: Array,
+    defaultPermissions: Array,
 })
 
 const deleteModalActive = ref(false);
@@ -106,6 +109,16 @@ const updateDeviceInformation = () => {
             </PrimaryButton>
           </template>
         </FormSection>
+
+        <ApiTokenManager
+            class="mt-12"
+            tokenType="device"
+            :device="device"
+            :tokens="tokens"
+            :available-permissions="availablePermissions"
+            :default-permissions="defaultPermissions"
+        />
+
       </div>
     </div>
 

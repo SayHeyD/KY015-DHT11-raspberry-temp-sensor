@@ -19,25 +19,48 @@ const props = defineProps({
     tokens: Array,
     availablePermissions: Array,
     defaultPermissions: Array,
+    tokenType: {
+        type: String,
+        default: 'user'
+    },
+    device: Object
 });
 
 const createApiTokenForm = useForm({
+    device_id: null,
     name: '',
     permissions: props.defaultPermissions,
 });
 
 const updateApiTokenForm = useForm({
+    device_id: null,
     permissions: [],
 });
 
-const deleteApiTokenForm = useForm({});
+const deleteApiTokenForm = useForm({
+    device_id: null,
+});
 
 const displayingToken = ref(false);
 const managingPermissionsFor = ref(null);
 const apiTokenBeingDeleted = ref(null);
 
+const addDeviceId = (form) => {
+    if (props.tokenType === 'device') {
+        form.device_id = props.device.id
+    }
+}
+
 const createApiToken = () => {
-    createApiTokenForm.post(route('api-tokens.store'), {
+    addDeviceId(createApiTokenForm)
+
+    console.log(props.tokenType)
+
+    const endpoint = props.tokenType === 'user'
+      ? route('api-tokens.store')
+      : route('devices.api.store')
+
+    createApiTokenForm.post(endpoint, {
         preserveScroll: true,
         onSuccess: () => {
             displayingToken.value = true;
@@ -52,7 +75,13 @@ const manageApiTokenPermissions = (token) => {
 };
 
 const updateApiToken = () => {
-    updateApiTokenForm.put(route('api-tokens.update', managingPermissionsFor.value), {
+    addDeviceId(updateApiTokenForm)
+
+    const endpoint = props.tokenType === 'user'
+      ? route('api-tokens.update', managingPermissionsFor.value)
+      : route('devices.api.update', managingPermissionsFor.value)
+
+    updateApiTokenForm.put(endpoint, {
         preserveScroll: true,
         preserveState: true,
         onSuccess: () => (managingPermissionsFor.value = null),
@@ -64,7 +93,13 @@ const confirmApiTokenDeletion = (token) => {
 };
 
 const deleteApiToken = () => {
-    deleteApiTokenForm.delete(route('api-tokens.destroy', apiTokenBeingDeleted.value), {
+    addDeviceId(deleteApiTokenForm)
+
+    const endpoint = props.tokenType === 'user'
+      ? route('api-tokens.destroy', apiTokenBeingDeleted.value)
+      : route('devices.api.destroy', apiTokenBeingDeleted.value)
+
+    deleteApiTokenForm.delete(endpoint, {
         preserveScroll: true,
         preserveState: true,
         onSuccess: () => (apiTokenBeingDeleted.value = null),
@@ -237,12 +272,15 @@ const deleteApiToken = () => {
             </template>
 
             <template #footer>
-                <SecondaryButton @click="apiTokenBeingDeleted = null">
+                <SecondaryButton
+                    @click="apiTokenBeingDeleted = null"
+                    class="mx-2"
+                >
                     Cancel
                 </SecondaryButton>
 
                 <DangerButton
-                    class="ms-3"
+                    class="mx-2 ms-3"
                     :class="{ 'opacity-25': deleteApiTokenForm.processing }"
                     :disabled="deleteApiTokenForm.processing"
                     @click="deleteApiToken"
