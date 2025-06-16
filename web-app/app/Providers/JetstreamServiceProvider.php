@@ -34,7 +34,7 @@ class JetstreamServiceProvider extends ServiceProvider
      */
     protected function configurePermissions(): void
     {
-        Jetstream::defaultApiTokenPermissions(['read']);
+        Jetstream::defaultApiTokenPermissions(['temperature:create']);
 
         Jetstream::permissions([
             'temperature:create',
