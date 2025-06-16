@@ -90,7 +90,7 @@ function installApp() {
 
   # Install app files
   cp ./main.py "$AppPath/main.py"
-  cp ./requirements.txt "$AppPath/pyproject.toml"
+  cp ./pyproject.toml "$AppPath/pyproject.toml"
   cp ./stubs/config.env "$AppPath/config.env"
 
   logInfo "Created application directory."
