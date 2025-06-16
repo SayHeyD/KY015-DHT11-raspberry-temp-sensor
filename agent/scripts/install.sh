@@ -114,7 +114,7 @@ function configureApp() {
 
 function enableService() {
   systemctl daemon-reload
-  systemctl enable rsta-agent.service
+  systemctl enable rtsa-agent.service
 }
 
 # Preflight checks 📋
