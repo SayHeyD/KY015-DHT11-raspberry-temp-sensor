@@ -5,7 +5,7 @@ import {onMounted, ref, watch} from "vue";
 const props = defineProps({
     device: {
         type: Object,
-        required: true,
+        default: null,
     },
     size: {
         type: Number,
@@ -14,9 +14,8 @@ const props = defineProps({
 })
 
 watch(
-  () => props.device.temperatures,
+  () => props.device?.temperatures,
   () => {
-    console.log('UPDATED')
     generateLastTempEntryStatus()
   },
   { deep: true }
@@ -25,6 +24,10 @@ watch(
 const lastTempEntryStatus = ref('bg-gray-500')
 
 const generateLastTempEntryStatus = () => {
+
+  if (props.device == null) {
+      return
+  }
 
   if (props.device != null && props.device.temperatures.length > 0) {
     let createdAt = new Date(props.device.temperatures[0].created_at)
