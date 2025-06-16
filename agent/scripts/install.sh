@@ -71,7 +71,7 @@ function createUserAndGroup() {
   if id "$ServiceUserName" >/dev/null 2>&1; then
     logInfo "User '$ServiceUserName' found."
   else
-    useradd -s "/usr/bin/bash" -g "$ServiceUserName" "$ServiceUserName"
+    useradd -s "/usr/bin/bash" -d "$AppPath" -g "$ServiceUserName" "$ServiceUserName"
     logInfo "Created user '$ServiceUserName'"
   fi
 }
@@ -98,7 +98,7 @@ function installApp() {
 
   # Set file permissions
   chgrp -R "$ServiceUserName" "$AppPath"
-  chmod g+rwx "$AppPath"
+  chmod -R g+rwx "$AppPath"
 }
 
 function installService() {
