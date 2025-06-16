@@ -18,7 +18,6 @@ class TemperatureEntryFactory extends Factory
     public function definition(): array
     {
         return [
-            'id' => $this->faker->uuid(),
             'device_id' => Device::all()->random()->id,
             'temperature' => $this->faker->randomFloat(1, -20, 50),
             'humidity' => $this->faker->randomFloat(1, 0, 100),
