@@ -199,7 +199,6 @@ const setSelectedDevice = () => {
 }
 
 const refreshTempEntries = () => {
-    console.log('refreshing')
     router.reload({
         data: {
             device: selectedDevice.value?.id
