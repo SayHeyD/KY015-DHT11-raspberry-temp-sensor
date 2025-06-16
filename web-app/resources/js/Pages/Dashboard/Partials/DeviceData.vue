@@ -179,7 +179,7 @@ const setSelectedDevice = () => {
     }
 
     if (props.selectedDeviceId != null) {
-        for (let i = 0; i++; i < props.devices.length) {
+        for (let i = 0; i < props.devices.length; i++) {
             if (props.devices[i].id == props.selectedDeviceId) {
                 selectedDevice.value = props.devices[i]
             }
@@ -227,7 +227,6 @@ const dataUpdate = () => {
 }
 
 onMounted(() => {
-    dataUpdate()
     refreshTempEntries()
     //                                                ms   * s
     refreshInterval = setInterval(refreshTempEntries, 1000 * 30)
