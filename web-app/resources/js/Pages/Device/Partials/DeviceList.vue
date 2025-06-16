@@ -2,9 +2,10 @@
 
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import DangerButton from "@/Components/DangerButton.vue";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import ConfirmationModal from "@/Components/ConfirmationModal.vue";
 import {router} from "@inertiajs/vue3";
+import DeviceStatus from "@/Components/DeviceStatus.vue";
 
 defineProps({
     devices: Array
@@ -22,11 +23,24 @@ const deleteDevice = () => {
     router.delete(route('devices.destroy', deviceToDelete.value.id));
     deleteModalActive.value = false;
 }
+
+onMounted(() => {
+    setInterval(() => {
+        router.reload({
+            only: [
+                'devices'
+            ]
+        })
+    }, 1000 * 30)
+})
 </script>
 
 <template>
   <div v-if="devices.length > 0" :key="device.id" v-for="device in devices" class="bg-white dark:bg-gray-800 flex items-center justify-between p-4 w-full my-4 shadow-xl sm:rounded-lg">
-    <p v-text="device.name" />
+    <div class="flex justify-start items-center">
+      <DeviceStatus :device="device" :size="2" class="mr-4" />
+      <p v-text="device.name" />
+    </div>
     <div class="flex justify-around items-center">
       <PrimaryButton class="mx-2" :href="route('devices.show', device.id)">
         Show
