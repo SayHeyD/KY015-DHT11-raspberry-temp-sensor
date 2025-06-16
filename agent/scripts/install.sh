@@ -102,7 +102,8 @@ function installApp() {
 }
 
 function installService() {
-  cp ../stubs/rtsa-agent.service /lib/systemd/system/rtsa-agent.service
+  cp ./stubs/rtsa-agent.service /lib/systemd/system/rtsa-agent.service
+  logInfo "Installed Service"
 }
 
 function configureApp() {
