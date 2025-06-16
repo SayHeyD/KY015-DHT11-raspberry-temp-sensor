@@ -10,7 +10,8 @@ RestartSec=1
 User="rtsa"
 Group="rtsa"
 EnvironmentFile=/opt/rtsa/config.env
-ExecStart="source /opt/rtsa/.venv/bin/activate && python3 /opt/rtsa/main.py"
+WorkingDirectory=/opt/rtsa
+ExecStart=/opt/rtsa/.venv/bin/python3 /opt/rtsa/main.py
 
 [Install]
 WantedBy=multi-user.target
