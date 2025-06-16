@@ -17,8 +17,6 @@ import {
 
 ChartJS.register(Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement)
 
-const page = usePage()
-
 const props = defineProps({
     devices: Array,
     selectedDeviceId: Number
