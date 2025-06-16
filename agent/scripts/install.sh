@@ -58,24 +58,6 @@ function checkIfAlreadyInstalled() {
   logInfo "No previous installation found"
 }
 
-function createUserAndGroup() {
-  # Create group if it doesn't exist
-  if [ $(getent group "$ServiceUserName") ]; then
-    logInfo "Group '$ServiceUserName' already exists."
-  else
-    groupadd "$ServiceUserName"
-    logInfo "Created group '$ServiceUserName'"
-  fi
-
-  # Create user if it doesn't exist
-  if id "$ServiceUserName" >/dev/null 2>&1; then
-    logInfo "User '$ServiceUserName' found."
-  else
-    useradd -s "/usr/bin/bash" -d "$AppPath" -g "$ServiceUserName" "$ServiceUserName"
-    logInfo "Created user '$ServiceUserName'"
-  fi
-}
-
 function installApp() {
   # Create application directory
   mkdir -p "$AppPath"
@@ -96,10 +78,6 @@ function installApp() {
   # Install dependencies
   source "$AppPath/.venv/bin/activate" && pip3 install .[full]
   logInfo "Installed dependencies"
-
-  # Set file permissions
-  chgrp -R "$ServiceUserName" "$AppPath"
-  chmod -R g+rwx "$AppPath"
 }
 
 function installService() {
@@ -124,7 +102,6 @@ checkDevice
 checkIfAlreadyInstalled
 
 # Install and configuration 👩‍💻👨‍💻
-createUserAndGroup
 installApp
 installService
 configureApp
