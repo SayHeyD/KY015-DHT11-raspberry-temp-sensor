@@ -26,7 +26,7 @@ class DHT22Sensor(ISensor):
             self.__logger.info('Successfully imported required modules "adafruit_dht" and "board", using DHT22 sensor')
 
         except ImportError as error:
-            self.__logger.fatal(
+            self.__logger.critical(
                 'Could not import required modules "adafruit_dht" and "board": {error_msg}'
                 .format(error_msg=error.msg)
             )
