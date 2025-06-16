@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DeviceApiTokenController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\IndexController;
 use Illuminate\Support\Facades\Route;
@@ -22,5 +23,12 @@ Route::middleware([
         Route::get('/{device}', [DeviceController::class, 'show'])->name('show');
         Route::put('/{device}', [DeviceController::class, 'update'])->name('update');
         Route::delete('/{device}', [DeviceController::class, 'destroy'])->name('destroy');
+
+        # Device API Token management
+        Route::prefix('/api')->name('api.')->group(function () {
+            Route::post('', [DeviceApiTokenController::class, 'store'])->name('store');
+            Route::put('/{token}', [DeviceApiTokenController::class, 'update'])->name('update');
+            Route::delete('/{token}', [DeviceApiTokenController::class, 'destroy'])->name('destroy');
+        });
     });
 });
