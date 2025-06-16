@@ -29,23 +29,36 @@ try:
 except KeyError as error:
     __log__level = logging.INFO
 
-# Setup logger and configure app
+# Setup logger
 logger = log.setup("rtsa", __log__level)
 logger.info(f"Loglevel set to: '{logging.getLevelName(__log__level)}'")
 
+# Terminate if invalid log level was passed
 if __log_level_invalid:
     valid_log_levels = "'DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'"
     logger.critical(f"Invalid log level '{__requested_level}'. Valid values are {valid_log_levels}.")
     exit(1)
 
+# Configure application
 app.configure()
 
+# Create Sensor
 sensor = create_sensor.create()
+
+# Prepare API
+api = app.get_api()
 
 while True:
     try:
-        sensor.read()
-        time.sleep(5)
+        # Get data
+        sensor_data = sensor.read()
+
+        # If no failure occurred, send data to API
+        if sensor_data is not None:
+            api.send_data(sensor_data)
+
+        time.sleep(60)
+
     except KeyboardInterrupt as error:
         print("")
         logger.info("User stopped execution manually")
