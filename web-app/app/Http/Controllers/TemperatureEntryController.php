@@ -27,6 +27,8 @@ class TemperatureEntryController extends Controller
             'device_id' => $device->id,
             'temperature' => $request->temperature,
             'humidity' => $request->humidity,
+            'measured_at' => $request->timestamp,
+            'mock' => $request->mock,
         ];
 
         if ($request->has('created_at')) {
