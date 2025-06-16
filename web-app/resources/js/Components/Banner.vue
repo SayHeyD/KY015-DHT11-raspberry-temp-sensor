@@ -13,9 +13,6 @@ watchEffect(async () => {
     show.value = true;
 });
 
-onMounted(() => {
-  console.log(page.props.jetstream.flash)
-})
 </script>
 
 <template>
