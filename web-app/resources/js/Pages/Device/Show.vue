@@ -58,7 +58,7 @@ const copyDeviceId = () => {
     <template #header>
       <div class="w-full flex justify-between items-center">
         <div class="flex justify-start items-center">
-          <DeviceStatus :device="device" :size="4" class="mr-4" />
+          <DeviceStatus :device="device" :size="2" class="mr-4" />
           <h2 v-text="device.name" class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight" />
         </div>
 

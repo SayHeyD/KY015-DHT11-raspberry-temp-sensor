@@ -300,8 +300,7 @@ onUnmounted(() => {
     <div class="bg-gray-200 dark:bg-gray-800 bg-opacity-25 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 p-6 lg:p-8">
       <div>
         <div class="flex items-center">
-          <p v-text="selectedDevice?.id + ' ' + selectedDevice?.name"></p>
-          <DeviceStatus :device="selectedDevice ?? null" :size="4" />
+          <DeviceStatus :device="selectedDevice ?? null" :size="2" />
           <h2 class="ms-3 text-xl font-semibold text-gray-900 dark:text-white">
             Device Status
           </h2>

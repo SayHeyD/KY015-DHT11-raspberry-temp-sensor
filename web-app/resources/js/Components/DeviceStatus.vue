@@ -53,7 +53,7 @@ onMounted(() => {
 
 <template>
   <div
-      :class="`min-h-${size} min-w-${size} ${lastTempEntryStatus}`"
+      :class="`p-${size} ${lastTempEntryStatus}`"
       class="rounded-full animate-pulse"
   />
 </template>
