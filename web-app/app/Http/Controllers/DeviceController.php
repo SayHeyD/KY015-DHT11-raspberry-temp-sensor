@@ -15,14 +15,28 @@ class DeviceController extends Controller
     {
         $user = Auth::user();
         return Inertia::render('Device/Index', [
-            'devices' => $user->devices,
+            'devices' => $user->devices->load([
+                'temperatures' => function($query) {
+                    $query
+                        ->where('created_by', '>=', now()->subDay())
+                        ->orderBy('created_at', 'desc')
+                        ->limit(1);
+                }
+            ]),
         ]);
     }
 
     public function show(Device $device)
     {
         return Inertia::render('Device/Show', [
-            'device' => $device,
+            'device' => $device->load([
+                'temperatures' => function($query) {
+                    $query
+                        ->where('created_by', '>=', now()->subDay())
+                        ->orderBy('created_at', 'desc')
+                        ->limit(1);
+                }
+            ]),
             'tokens' => $device->tokens,
             'availablePermissions' => Jetstream::$permissions,
             'defaultPermissions' => Jetstream::$defaultPermissions,
