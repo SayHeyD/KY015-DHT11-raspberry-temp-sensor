@@ -18,6 +18,8 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->float('temperature');
             $table->float('humidity');
+            $table->boolean('mock');
+            $table->timestamp('measured_at');
             $table->timestamps();
         });
     }
