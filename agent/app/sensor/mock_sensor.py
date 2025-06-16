@@ -26,12 +26,12 @@ class MockSensor(ISensor):
 
         for attempt in range(15):
             # Simulate failed reads occasionally
-            if random.randint(0, 100) > 98:
+            if random.randint(0, 100) < 12:
                 self.__logger.warning(
                     'Could not read sensor data, try {attempt} / 15: {error_msg}'
                     .format(attempt=attempt + 1, error_msg="Simulated failure")
                 )
-                time.sleep(0.5)
+                time.sleep(2)
                 continue
 
             self.__generate_mock_data()
