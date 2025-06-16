@@ -19,6 +19,8 @@ class TemperatureEntry extends Model
         'device_id',
         'temperature',
         'humidity',
+        'measured_at',
+        'mock',
     ];
 
     public static function booted(): void
