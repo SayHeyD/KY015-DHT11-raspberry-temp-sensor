@@ -26,5 +26,6 @@ class Api:
                             "device_id": self.__device_id,
                             "temperature": sensor_data.get_temperature(),
                             "humidity": sensor_data.get_humidity(),
+                            "mock": sensor_data.get_mock(),
                       }
         ))
