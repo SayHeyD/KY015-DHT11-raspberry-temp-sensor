@@ -95,7 +95,7 @@ const overviewChartData = computed(() => {
     }
 
     selectedDevice.value.temperatures.forEach((tempEntry) => {
-        labels.unshift(new Date(tempEntry.created_at).toLocaleString())
+        labels.push(new Date(tempEntry.measured_at).toLocaleString())
         temperatureDataSet.data.unshift(tempEntry.temperature)
         humidityDataSet.data.unshift(tempEntry.humidity)
     })
@@ -181,7 +181,7 @@ const generateLastTempEntryStatus = () => {
         let createdAt = new Date(selectedDevice.value.temperatures[0].created_at)
         let timeDifferenceInSeconds = (Date.now() - createdAt) / 1000
 
-        if (timeDifferenceInSeconds <= 5) {
+        if (timeDifferenceInSeconds <= 90) {
             lastTempEntryStatus.value = 'bg-green-500'
         } else if (timeDifferenceInSeconds <= 300) {
             lastTempEntryStatus.value = 'bg-yellow-500'

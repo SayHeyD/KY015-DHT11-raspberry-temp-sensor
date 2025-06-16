@@ -19,8 +19,10 @@ class TemperatureEntryFactory extends Factory
     {
         return [
             'device_id' => Device::all()->random()->id,
-            'temperature' => $this->faker->randomFloat(2, -20, 50),
-            'humidity' => $this->faker->randomFloat(2, 0, 100),
+            'temperature' => $this->faker->randomFloat(1, -20, 50),
+            'humidity' => $this->faker->randomFloat(1, 0, 100),
+            'measured_at' => now()->toString(),
+            'mock' => true,
         ];
     }
 }

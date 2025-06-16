@@ -13,8 +13,18 @@ class TemperatureEntrySeeder extends Seeder
      */
     public function run(): void
     {
-        TemperatureEntry::factory()
-            ->count(300)
-            ->create();
+        $dataPoints = 300;
+        $timestamps = [];
+
+
+        for ($i = 0; $i < $dataPoints; $i++) {
+
+            $measured_at = now()->subMinutes($dataPoints - $i);
+
+            TemperatureEntry::factory()
+                ->create([
+                    'measured_at' => $measured_at->toString()
+                ]);
+        }
     }
 }
