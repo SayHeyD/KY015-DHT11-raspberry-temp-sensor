@@ -14,8 +14,6 @@ class TemperatureEntrySeeder extends Seeder
     public function run(): void
     {
         $dataPoints = 300;
-        $timestamps = [];
-
 
         for ($i = 0; $i < $dataPoints; $i++) {
 

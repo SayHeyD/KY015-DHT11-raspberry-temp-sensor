@@ -11,6 +11,9 @@ class TemperatureEntry extends Model
     /** @use HasFactory<\Database\Factories\TemperatureEntryFactory> */
     use HasFactory;
 
+    protected $keyType = 'string';
+    public $incrementing = false;
+
     protected $fillable = [
         'device_id',
         'temperature',
