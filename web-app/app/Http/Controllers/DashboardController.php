@@ -18,7 +18,7 @@ class DashboardController extends Controller
             'devices' => fn () => $devices->load([
                 'temperatures' => function($query) {
                     $query
-                        ->where('created_by', '>=', now()->subDay())
+                        ->where('created_at', '>=', now()->subDay())
                         ->orderBy('created_at', 'desc');
                 }
             ]),
