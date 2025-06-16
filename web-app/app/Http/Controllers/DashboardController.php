@@ -15,7 +15,6 @@ class DashboardController extends Controller
         $selectedDevice = $request->query('device');
 
         return Inertia::render('Dashboard/View', [
-            // 'devices' => [],
             'devices' => fn () => $devices->load([
                 'temperatures' => function($query) {
                     $query

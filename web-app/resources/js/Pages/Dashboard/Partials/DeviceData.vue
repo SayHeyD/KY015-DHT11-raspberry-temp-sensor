@@ -239,7 +239,8 @@ onBeforeMount(() => {
 })
 
 onMounted(() => {
-    refreshInterval = setInterval(refreshTempEntries, 15000)
+    //                                                ms   * s
+    refreshInterval = setInterval(refreshTempEntries, 1000 * 15)
 })
 
 onUnmounted(() => {
