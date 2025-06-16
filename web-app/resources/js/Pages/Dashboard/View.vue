@@ -4,7 +4,7 @@ import DeviceData from "@/Pages/Dashboard/Partials/DeviceData.vue";
 
 const props = defineProps({
     devices: Array,
-  selectedDeviceId: Number,
+    selectedDeviceId: Number,
 })
 </script>
 
