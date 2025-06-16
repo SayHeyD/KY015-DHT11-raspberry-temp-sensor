@@ -5,7 +5,6 @@ import time
 from app import log
 from app import app
 from app.sensor import create_sensor
-from app.api import Api
 
 # Loglevel settings
 __requested_level = None
