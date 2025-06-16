@@ -148,6 +148,7 @@
       <path value="$PROJECT_DIR$/web-app/vendor/symfony/polyfill-mbstring" />
       <path value="$PROJECT_DIR$/web-app/vendor/brianium/paratest" />
       <path value="$PROJECT_DIR$/web-app/vendor/theseer/tokenizer" />
+      <path value="$PROJECT_DIR$/web-app/vendor/_laravel_idea" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />

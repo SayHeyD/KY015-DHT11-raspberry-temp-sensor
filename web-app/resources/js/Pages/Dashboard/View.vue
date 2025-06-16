@@ -4,7 +4,8 @@ import DeviceData from "@/Pages/Dashboard/Partials/DeviceData.vue";
 import {watch} from "vue";
 
 const props = defineProps({
-    devices: Array
+    devices: Array,
+  selectedDeviceId: Number,
 })
 
 watch(
@@ -27,7 +28,7 @@ watch(
     <div class="py-12">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white dark:bg-gray-800 shadow-xl sm:rounded-lg">
-          <DeviceData :devices="devices" />
+          <DeviceData :devices="devices" :selected-device-id="selectedDeviceId" />
         </div>
       </div>
     </div>

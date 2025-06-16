@@ -108,25 +108,25 @@ const overviewChartData = computed(() => {
 
 const generateAverageTemperature = () => {
     let totalTemperature = 0
-    selectedDevice.value.temperatures.forEach((tempEntry) => {
+    selectedDevice.value?.temperatures.forEach((tempEntry) => {
         totalTemperature += tempEntry.temperature
     })
 
-    averageTemperature.value = (totalTemperature / selectedDevice.value.temperatures.length).toFixed(2)
+    averageTemperature.value = (totalTemperature / selectedDevice.value?.temperatures.length).toFixed(2)
 }
 
 const generateAverageHumidity = () => {
     let totalHumidity = 0
-    selectedDevice.value.temperatures.forEach((tempEntry) => {
+    selectedDevice.value?.temperatures.forEach((tempEntry) => {
         totalHumidity += tempEntry.humidity
     })
 
-    averageHumidity.value = (totalHumidity / selectedDevice.value.temperatures.length).toFixed(2)
+    averageHumidity.value = (totalHumidity / selectedDevice.value?.temperatures.length).toFixed(2)
 }
 
 const generateMaxTemperature = () => {
     let calculatedMaxTemperature
-    selectedDevice.value.temperatures.forEach((tempEntry) => {
+    selectedDevice.value?.temperatures.forEach((tempEntry) => {
         if (calculatedMaxTemperature == null || tempEntry.temperature > calculatedMaxTemperature) {
             calculatedMaxTemperature = tempEntry.temperature
         }
@@ -137,7 +137,7 @@ const generateMaxTemperature = () => {
 
 const generateMaxHumidity = () => {
     let calculatedMaxHumidity
-    selectedDevice.value.temperatures.forEach((tempEntry) => {
+    selectedDevice.value?.temperatures.forEach((tempEntry) => {
         if (calculatedMaxHumidity == null || tempEntry.humidity > calculatedMaxHumidity) {
             calculatedMaxHumidity = tempEntry.humidity
         }
@@ -148,7 +148,7 @@ const generateMaxHumidity = () => {
 
 const generateMinTemperature = () => {
     let calculatedMinTemperature
-    selectedDevice.value.temperatures.forEach((tempEntry) => {
+    selectedDevice.value?.temperatures.forEach((tempEntry) => {
         if (calculatedMinTemperature == null || tempEntry.temperature < calculatedMinTemperature) {
             calculatedMinTemperature = tempEntry.temperature
         }
@@ -159,7 +159,7 @@ const generateMinTemperature = () => {
 
 const generateMinHumidity = () => {
     let calculatedMinHumidity
-    selectedDevice.value.temperatures.forEach((tempEntry) => {
+    selectedDevice.value?.temperatures.forEach((tempEntry) => {
         if (calculatedMinHumidity == null || tempEntry.humidity < calculatedMinHumidity) {
             calculatedMinHumidity = tempEntry.humidity
         }
@@ -178,6 +178,7 @@ const setSelectedDevice = () => {
         return
     }
 
+    console.log(props)
     if (props.selectedDeviceId != null) {
         for (let i = 0; i++; i < props.devices.length) {
             if (props.devices[i].id == props.selectedDeviceId) {
@@ -191,14 +192,29 @@ const setSelectedDevice = () => {
 
 const refreshTempEntries = () => {
     router.reload({
-        only: ['devices'],
+        only: [
+          'devices',
+          'selectedDeviceId'
+        ],
         data: {
-            device: selectedDevice.value.id
+            device: selectedDevice.value?.id
         }
     })
     nextTick(() => {
         dataUpdate()
     })
+}
+
+const switchDevice = (newDevice) => {
+  selectedDevice.value = newDevice
+  router.reload({
+    data: {
+      device: selectedDevice.value.id
+    }
+  })
+  nextTick(() => {
+    dataUpdate()
+  })
 }
 
 const dataUpdate = () => {
@@ -211,11 +227,9 @@ const dataUpdate = () => {
     generateMinHumidity()
 }
 
-onBeforeMount(() => {
-    dataUpdate()
-})
-
 onMounted(() => {
+    dataUpdate()
+    refreshTempEntries()
     //                                                ms   * s
     refreshInterval = setInterval(refreshTempEntries, 1000 * 30)
 })
@@ -249,10 +263,10 @@ onUnmounted(() => {
             Choose the device of which you want to see the data
           </div>
 
-          <DropdownLink v-if="devices.length > 0" v-for="dev in devices" @click="selectedDevice = dev">
-            {{ dev.name }} <span v-if="selectedDevice.id === dev.id">(SELECTED)</span>
+          <DropdownLink v-if="devices.length > 0" v-for="dev in devices" as="button" @click="switchDevice(dev)">
+            {{ dev.name }} <span v-if="selectedDevice?.id === dev.id">(SELECTED)</span>
           </DropdownLink>
-          <DropdownLink href="" v-else>
+          <DropdownLink as="button" @click="router.visit(route('devices.create'))" v-else>
             <span>Create new device</span>
           </DropdownLink>
         </template>
@@ -286,7 +300,8 @@ onUnmounted(() => {
     <div class="bg-gray-200 dark:bg-gray-800 bg-opacity-25 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 p-6 lg:p-8">
       <div>
         <div class="flex items-center">
-          <DeviceStatus :device="selectedDevice" :size="4" />
+          <p v-text="selectedDevice?.id + ' ' + selectedDevice?.name"></p>
+          <DeviceStatus :device="selectedDevice ?? null" :size="4" />
           <h2 class="ms-3 text-xl font-semibold text-gray-900 dark:text-white">
             Device Status
           </h2>
