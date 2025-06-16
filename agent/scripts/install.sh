@@ -71,7 +71,7 @@ function createUserAndGroup() {
   if id "$ServiceUserName" >/dev/null 2>&1; then
     logInfo "User '$ServiceUserName' found."
   else
-    useradd -s "/usr/bin/bash" -G "$ServiceUserName" "$ServiceUserName"
+    useradd -s "/usr/bin/bash" -g "$ServiceUserName" "$ServiceUserName"
     logInfo "Created user '$ServiceUserName'"
   fi
 }
