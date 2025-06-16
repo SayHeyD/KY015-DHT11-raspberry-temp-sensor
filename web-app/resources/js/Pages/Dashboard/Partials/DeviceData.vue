@@ -172,6 +172,14 @@ watch(props.devices, () => {
     dataUpdate()
 })
 
+watch(props.selectedDeviceId, () => {
+    dataUpdate()
+})
+
+watch(selectedDevice, () => {
+    refreshTempEntries()
+})
+
 const setSelectedDevice = () => {
     if (props.devices.length === 0)
     {
@@ -191,29 +199,14 @@ const setSelectedDevice = () => {
 
 const refreshTempEntries = () => {
     router.reload({
-        only: [
-          'devices',
-          'selectedDeviceId'
-        ],
         data: {
             device: selectedDevice.value?.id
-        }
-    })
-    nextTick(() => {
-        dataUpdate()
+        },
     })
 }
 
 const switchDevice = (newDevice) => {
   selectedDevice.value = newDevice
-  router.reload({
-    data: {
-      device: selectedDevice.value.id
-    }
-  })
-  nextTick(() => {
-    dataUpdate()
-  })
 }
 
 const dataUpdate = () => {
@@ -227,6 +220,7 @@ const dataUpdate = () => {
 }
 
 onMounted(() => {
+    setSelectedDevice()
     refreshTempEntries()
     //                                                ms   * s
     refreshInterval = setInterval(refreshTempEntries, 1000 * 30)
