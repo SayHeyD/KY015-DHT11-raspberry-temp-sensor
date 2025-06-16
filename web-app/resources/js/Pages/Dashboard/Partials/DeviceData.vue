@@ -199,6 +199,7 @@ const setSelectedDevice = () => {
 }
 
 const refreshTempEntries = () => {
+    console.log('refreshing')
     router.reload({
         data: {
             device: selectedDevice.value?.id
@@ -223,8 +224,12 @@ const dataUpdate = () => {
 onMounted(() => {
     setSelectedDevice()
     refreshTempEntries()
-    //                                                ms   * s
-    refreshInterval = setInterval(refreshTempEntries, 1000 * 30)
+
+    refreshInterval = setInterval(() => {
+      refreshTempEntries()
+      dataUpdate()
+    // ms   * s
+    }, 1000 * 30)
 })
 
 onUnmounted(() => {
