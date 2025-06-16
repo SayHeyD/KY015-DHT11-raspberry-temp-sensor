@@ -2,7 +2,7 @@
 
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import DangerButton from "@/Components/DangerButton.vue";
-import {onMounted, ref} from "vue";
+import {onMounted, onUnmounted, ref} from "vue";
 import ConfirmationModal from "@/Components/ConfirmationModal.vue";
 import {router} from "@inertiajs/vue3";
 import DeviceStatus from "@/Components/DeviceStatus.vue";
@@ -13,6 +13,8 @@ defineProps({
 
 const deviceToDelete = ref(null);
 const deleteModalActive = ref(false);
+
+let refreshInterval
 
 const showDeleteModal = (device) => {
     deviceToDelete.value = device;
@@ -25,13 +27,17 @@ const deleteDevice = () => {
 }
 
 onMounted(() => {
-    setInterval(() => {
+    refreshInterval = setInterval(() => {
         router.reload({
             only: [
                 'devices'
             ]
         })
     }, 1000 * 30)
+})
+
+onUnmounted(() => {
+    clearInterval(refreshInterval)
 })
 </script>
 
