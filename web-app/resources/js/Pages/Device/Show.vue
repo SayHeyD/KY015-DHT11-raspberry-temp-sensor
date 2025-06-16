@@ -5,13 +5,16 @@ import DangerButton from "@/Components/DangerButton.vue";
 import ConfirmationModal from "@/Components/ConfirmationModal.vue";
 import {ref} from "vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import {router, useForm} from "@inertiajs/vue3";
+import {router, useForm, usePage} from "@inertiajs/vue3";
 import TextInput from "@/Components/TextInput.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
 import FormSection from "@/Components/FormSection.vue";
 import ActionMessage from "@/Components/ActionMessage.vue";
 import ApiTokenManager from "@/Pages/API/Partials/ApiTokenManager.vue";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
+
+const page = usePage()
 
 const props = defineProps({
     device: Object,
@@ -39,17 +42,31 @@ const updateDeviceInformation = () => {
     form.put(route('devices.update', props.device.id))
 }
 
+const copyDeviceId = () => {
+    // Copy the text inside the text field
+    navigator.clipboard.writeText(props.device.id);
+
+    page.props.jetstream.flash.bannerStyle = 'success'
+    page.props.jetstream.flash.banner = `Copied device ID "${props.device.id}" !`
+}
+
 </script>
 
 <template>
-  <AppLayout title="device.name">
+  <AppLayout :title="device.name">
     <template #header>
       <div class="w-full flex justify-between items-center">
         <h2 v-text="device.name" class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight" />
 
-        <DangerButton @click="toggleDeleteModal()">
-          Delete
-        </DangerButton>
+        <div class="flex justify-around items-center">
+          <SecondaryButton class="mx-2" @click="copyDeviceId()">
+            Copy device ID
+          </SecondaryButton>
+
+          <DangerButton class="mx-2" @click="toggleDeleteModal()">
+            Delete
+          </DangerButton>
+        </div>
 
         <confirmation-modal :show="deleteModalActive" @close="toggleDeleteModal()">
           <template #title>
