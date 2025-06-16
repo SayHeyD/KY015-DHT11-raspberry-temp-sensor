@@ -57,8 +57,10 @@ class Api:
             else:
                 app.get_logger().info(f"Transmitted measurement successfully: HTTP {response.status_code}")
 
+            cleaned_response_body = response.text.replace("\n", "\\n")
+
             app.get_logger().debug(f"Response headers: {response.headers.items()}")
-            app.get_logger().debug(f"Response body: {response.text.replace("\n", "\\n")}")
+            app.get_logger().debug(f"Response body: {cleaned_response_body}")
         except requests.ConnectionError as error:
             occurred_error = f"Could not connect to host '{self.__server_host}': {error.args}"
         except requests.HTTPError as error:
