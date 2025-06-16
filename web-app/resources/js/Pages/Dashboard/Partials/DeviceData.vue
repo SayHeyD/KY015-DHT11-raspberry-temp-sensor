@@ -1,6 +1,6 @@
 <script setup>
-import {router, usePage} from '@inertiajs/vue3'
-import {computed, nextTick, onBeforeMount, onMounted, onUnmounted, ref, watch} from "vue";
+import {router} from '@inertiajs/vue3'
+import {computed, nextTick, onMounted, onUnmounted, ref, watch} from "vue";
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
 import { Line } from "vue-chartjs";
@@ -178,7 +178,6 @@ const setSelectedDevice = () => {
         return
     }
 
-    console.log(props)
     if (props.selectedDeviceId != null) {
         for (let i = 0; i++; i < props.devices.length) {
             if (props.devices[i].id == props.selectedDeviceId) {
