@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateDeviceRequest;
 use App\Models\Device;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Laravel\Jetstream\Jetstream;
 
 class DeviceController extends Controller
 {
@@ -22,6 +23,9 @@ class DeviceController extends Controller
     {
         return Inertia::render('Device/Show', [
             'device' => $device,
+            'tokens' => $device->tokens,
+            'availablePermissions' => Jetstream::$permissions,
+            'defaultPermissions' => Jetstream::$defaultPermissions,
         ]);
     }
 
