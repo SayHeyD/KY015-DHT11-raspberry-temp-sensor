@@ -266,10 +266,10 @@ onUnmounted(() => {
     </div>
 
     <div class="p-6">
-      <h1 class="text-2xl font-medium text-gray-900 dark:text-white">
+      <h2 class="text-2xl font-medium text-gray-900 dark:text-white">
         <span v-if="selectedDevice">Data from {{ selectedDevice.name }}</span>
         <span v-else>No Data</span>
-      </h1>
+      </h2>
 
       <div v-if="selectedDevice" class="mt-4 text-gray-400">
           <div v-if="selectedDevice.temperatures.length > 0">
