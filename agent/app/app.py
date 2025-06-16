@@ -5,8 +5,6 @@ from numbers import Number
 from app.api import api
 from app.api.api import Api
 
-__configured: bool = False
-
 __mock: bool = False
 
 __server_host: str = ""
