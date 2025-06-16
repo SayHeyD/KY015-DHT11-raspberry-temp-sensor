@@ -25,6 +25,7 @@ const props = defineProps({
 
 const overviewChartOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     interaction: {
         mode: 'index',
         intersect: false,
@@ -274,6 +275,7 @@ onUnmounted(() => {
       <div v-if="selectedDevice" class="mt-4 text-gray-400">
           <div v-if="selectedDevice.temperatures.length > 0">
               <Line
+                  class="w-full"
                   :id="`${selectedDevice.id}-${selectedDevice.name}-overview-chart`"
                   :options="overviewChartOptions"
                   :data="overviewChartData"
