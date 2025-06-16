@@ -25,4 +25,28 @@ class TemperatureEntryFactory extends Factory
             'mock' => true,
         ];
     }
+
+    public function tempRange(float $minTemp, float $maxTemp): TemperatureEntryFactory
+    {
+        if ($minTemp < -20) $minTemp = -20;
+        if ($maxTemp > 50) $maxTemp = 50;
+
+        return $this->state(function (array $attributes) use ($minTemp, $maxTemp) {
+            return [
+                'temperature' => $this->faker->randomFloat(1, $minTemp, $maxTemp),
+            ];
+        });
+    }
+
+    public function humidityRange(float $minHumidity, float $maxHumidity): TemperatureEntryFactory
+    {
+        if ($minHumidity < 0) $minHumidity = 0;
+        if ($minHumidity > 100) $maxHumidity = 100;
+
+        return $this->state(function (array $attributes) use ($minHumidity, $maxHumidity) {
+            return [
+                'humidity' => $this->faker->randomFloat(1, $minHumidity, $maxHumidity),
+            ];
+        });
+    }
 }
