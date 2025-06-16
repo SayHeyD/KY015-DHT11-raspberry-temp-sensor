@@ -42,14 +42,6 @@ function checkDevice() {
   logInfo "Installing on $modelInfo"
 }
 
-# Check if required packages are install
-function checkPackages() {
-  pythonVersion="$(python3 --version)"
-  if [[ "$pythonVersion" != "Python 3.11"* ]]; then
-    logFatal "Python version 3.11 or newer must be installed!"
-  fi
-}
-
 # Check if the agent has already been installed
 function checkIfAlreadyInstalled() {
 
