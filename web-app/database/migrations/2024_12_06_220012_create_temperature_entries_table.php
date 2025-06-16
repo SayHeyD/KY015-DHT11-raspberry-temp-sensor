@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('temperature_entries', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignId('device_id')
+            $table->foreignUuid('device_id')
                 ->constrained('devices')
                 ->cascadeOnDelete();
             $table->float('temperature');
