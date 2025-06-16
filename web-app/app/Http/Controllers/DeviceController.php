@@ -18,7 +18,7 @@ class DeviceController extends Controller
             'devices' => $user->devices->load([
                 'temperatures' => function($query) {
                     $query
-                        ->where('created_by', '>=', now()->subDay())
+                        ->where('created_at', '>=', now()->subDay())
                         ->orderBy('created_at', 'desc')
                         ->limit(1);
                 }
@@ -32,7 +32,7 @@ class DeviceController extends Controller
             'device' => $device->load([
                 'temperatures' => function($query) {
                     $query
-                        ->where('created_by', '>=', now()->subDay())
+                        ->where('created_at', '>=', now()->subDay())
                         ->orderBy('created_at', 'desc')
                         ->limit(1);
                 }
