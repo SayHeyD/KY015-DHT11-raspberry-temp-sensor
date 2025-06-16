@@ -23,7 +23,7 @@ class StoreTemperatureEntryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'device_id' => ['required', 'exists:devices'],
+            'device_id' => ['required', 'exists:devices,id'],
             'temperature' => ['required', 'numeric', 'min:0', 'max:9000'],
             'humidity' => ['required', 'numeric', 'min:0', 'max:100'],
             'timestamp' => ['required', 'date'],
