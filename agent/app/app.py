@@ -2,8 +2,8 @@ import logging
 import os
 from numbers import Number
 
-from app.api import api
-from app.api.api import Api
+from app import api
+from app.api import Api
 
 __mock: bool = False
 
