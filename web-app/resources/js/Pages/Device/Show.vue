@@ -13,6 +13,7 @@ import FormSection from "@/Components/FormSection.vue";
 import ActionMessage from "@/Components/ActionMessage.vue";
 import ApiTokenManager from "@/Pages/API/Partials/ApiTokenManager.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
+import DeviceStatus from "@/Components/DeviceStatus.vue";
 
 const page = usePage()
 
@@ -56,7 +57,11 @@ const copyDeviceId = () => {
   <AppLayout :title="device.name">
     <template #header>
       <div class="w-full flex justify-between items-center">
-        <h2 v-text="device.name" class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight" />
+        <div class="flex justify-start items-center">
+          <DeviceStatus :device="device" :size="4" class="mr-4" />
+          <h2 v-text="device.name" class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight" />
+        </div>
+
 
         <div class="flex justify-around items-center">
           <SecondaryButton class="mx-2" @click="copyDeviceId()">

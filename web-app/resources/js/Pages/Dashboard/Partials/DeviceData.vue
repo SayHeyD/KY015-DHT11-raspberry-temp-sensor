@@ -14,6 +14,7 @@ import {
     PointElement,
     LineElement
 } from 'chart.js'
+import DeviceStatus from "@/Components/DeviceStatus.vue";
 
 ChartJS.register(Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement)
 
@@ -65,8 +66,6 @@ const overviewChartOptions = {
 let refreshInterval
 
 const selectedDevice = ref(null)
-
-const lastTempEntryStatus = ref('bg-gray-500')
 
 const averageTemperature = ref(0)
 const averageHumidity = ref(0)
@@ -173,24 +172,6 @@ watch(props.devices, () => {
     dataUpdate()
 })
 
-const generateLastTempEntryStatus = () => {
-
-    if (selectedDevice.value != null && selectedDevice.value.temperatures.length > 0) {
-        let createdAt = new Date(selectedDevice.value.temperatures[0].created_at)
-        let timeDifferenceInSeconds = (Date.now() - createdAt) / 1000
-
-        if (timeDifferenceInSeconds <= 90) {
-            lastTempEntryStatus.value = 'bg-green-500'
-        } else if (timeDifferenceInSeconds <= 300) {
-            lastTempEntryStatus.value = 'bg-yellow-500'
-        } else if (timeDifferenceInSeconds >= 300) {
-            lastTempEntryStatus.value = 'bg-red-500'
-        }
-    } else {
-        lastTempEntryStatus.value = 'bg-gray-500'
-    }
-}
-
 const setSelectedDevice = () => {
     if (props.devices.length === 0)
     {
@@ -217,13 +198,11 @@ const refreshTempEntries = () => {
     })
     nextTick(() => {
         dataUpdate()
-        console.log(props.devices[0].temperatures)
     })
 }
 
 const dataUpdate = () => {
     setSelectedDevice()
-    generateLastTempEntryStatus()
     generateAverageTemperature()
     generateAverageHumidity()
     generateMaxTemperature()
@@ -238,7 +217,7 @@ onBeforeMount(() => {
 
 onMounted(() => {
     //                                                ms   * s
-    refreshInterval = setInterval(refreshTempEntries, 1000 * 15)
+    refreshInterval = setInterval(refreshTempEntries, 1000 * 30)
 })
 
 onUnmounted(() => {
@@ -307,9 +286,7 @@ onUnmounted(() => {
     <div class="bg-gray-200 dark:bg-gray-800 bg-opacity-25 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 p-6 lg:p-8">
       <div>
         <div class="flex items-center">
-          <div class="min-h-4 min-w-4 rounded-full animate-pulse"
-                :class="lastTempEntryStatus"
-          />
+          <DeviceStatus :device="selectedDevice" :size="4" />
           <h2 class="ms-3 text-xl font-semibold text-gray-900 dark:text-white">
             Device Status
           </h2>

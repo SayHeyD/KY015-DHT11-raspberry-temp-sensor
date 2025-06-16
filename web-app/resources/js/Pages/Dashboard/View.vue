@@ -1,10 +1,19 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import DeviceData from "@/Pages/Dashboard/Partials/DeviceData.vue";
+import {watch} from "vue";
 
-defineProps({
+const props = defineProps({
     devices: Array
 })
+
+watch(
+  () => props.devices[0]?.temperatures,
+  (newTemps, oldTemps) => {
+    console.log('Temperatures changed:', newTemps);
+  },
+  { deep: true }
+);
 </script>
 
 <template>
