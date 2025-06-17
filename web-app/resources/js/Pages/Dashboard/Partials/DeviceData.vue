@@ -93,7 +93,7 @@ const overviewChartData = computed(() => {
     }
 
     selectedDevice.value.temperatures.forEach((tempEntry) => {
-        labels.push(new Date(tempEntry.measured_at).toLocaleString())
+        labels.unshift(new Date(tempEntry.measured_at).toLocaleString())
         temperatureDataSet.data.unshift(tempEntry.temperature)
         humidityDataSet.data.unshift(tempEntry.humidity)
     })
