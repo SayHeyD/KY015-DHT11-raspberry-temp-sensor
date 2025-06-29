@@ -11,18 +11,20 @@ class DashboardController extends Controller
     public function view(Request $request)
     {
         $devices = Auth::user()->devices;
+        $selectedDeviceId = $request->query('device', $devices->first()->id);
+        $currentDevice = $devices->find($selectedDeviceId);
 
-        $selectedDevice = $request->query('device');
+        $devices->find($selectedDeviceId);
+
+        $temperatures = $currentDevice->temperatures()
+            ->where('created_at', '>=', now()->subDay())
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return Inertia::render('Dashboard/View', [
-            'devices' => fn () => $devices->load([
-                'temperatures' => function($query) {
-                    $query
-                        ->where('created_at', '>=', now()->subDay())
-                        ->orderBy('created_at', 'desc');
-                }
-            ]),
-            'selectedDeviceId' => $selectedDevice
+            'devices' => $devices,
+            'temperatures' => $temperatures,
+            'selectedDeviceId' => $selectedDeviceId
         ]);
     }
 }

@@ -7,6 +7,9 @@ const props = defineProps({
         type: Object,
         default: null,
     },
+    temperatures: {
+        type: Object,
+    },
     size: {
         type: Number,
         default: 2
@@ -14,7 +17,7 @@ const props = defineProps({
 })
 
 watch(
-  () => props.device?.temperatures,
+  () => props.temperatures,
   () => {
     generateLastTempEntryStatus()
   },
@@ -29,8 +32,8 @@ const generateLastTempEntryStatus = () => {
       return
   }
 
-  if (props.device != null && props.device.temperatures.length > 0) {
-    let createdAt = new Date(props.device.temperatures[0].created_at)
+  if (props.device != null && props.temperatures.length > 0) {
+    let createdAt = new Date(props.temperatures[0].created_at)
     let timeDifferenceInSeconds = (Date.now() - createdAt) / 1000
 
     if (timeDifferenceInSeconds <= 120) {

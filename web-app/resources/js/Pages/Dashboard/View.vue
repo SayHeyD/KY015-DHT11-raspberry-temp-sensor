@@ -4,6 +4,7 @@ import DeviceData from "@/Pages/Dashboard/Partials/DeviceData.vue";
 
 const props = defineProps({
     devices: Array,
+    temperatures: Array,
     selectedDeviceId: Number,
 })
 </script>
@@ -19,7 +20,11 @@ const props = defineProps({
     <div class="py-12">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white dark:bg-gray-800 shadow-xl sm:rounded-lg">
-          <DeviceData :devices="devices" :selected-device-id="selectedDeviceId" />
+          <DeviceData
+              :devices="devices"
+              :selected-device-id="selectedDeviceId"
+              :temperatures="temperatures"
+          />
         </div>
       </div>
     </div>

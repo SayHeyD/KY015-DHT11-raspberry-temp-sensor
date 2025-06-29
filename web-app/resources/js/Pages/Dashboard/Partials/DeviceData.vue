@@ -20,6 +20,10 @@ ChartJS.register(Title, Tooltip, Legend, CategoryScale, LinearScale, PointElemen
 
 const props = defineProps({
     devices: Array,
+    temperatures: {
+      type: Array,
+      default: []
+    },
     selectedDeviceId: Number
 })
 
@@ -92,7 +96,7 @@ const overviewChartData = computed(() => {
         data: []
     }
 
-    selectedDevice.value.temperatures.forEach((tempEntry) => {
+    props.temperatures.forEach((tempEntry) => {
         labels.unshift(new Date(tempEntry.measured_at).toLocaleString())
         temperatureDataSet.data.unshift(tempEntry.temperature)
         humidityDataSet.data.unshift(tempEntry.humidity)
@@ -109,25 +113,25 @@ const overviewChartData = computed(() => {
 
 const generateAverageTemperature = () => {
     let totalTemperature = 0
-    selectedDevice.value?.temperatures.forEach((tempEntry) => {
+    props.temperatures.forEach((tempEntry) => {
         totalTemperature += tempEntry.temperature
     })
 
-    averageTemperature.value = (totalTemperature / selectedDevice.value?.temperatures.length).toFixed(2)
+    averageTemperature.value = (totalTemperature / props.temperatures.length).toFixed(2)
 }
 
 const generateAverageHumidity = () => {
     let totalHumidity = 0
-    selectedDevice.value?.temperatures.forEach((tempEntry) => {
+    props.temperatures.forEach((tempEntry) => {
         totalHumidity += tempEntry.humidity
     })
 
-    averageHumidity.value = (totalHumidity / selectedDevice.value?.temperatures.length).toFixed(2)
+    averageHumidity.value = (totalHumidity / props.temperatures.length).toFixed(2)
 }
 
 const generateMaxTemperature = () => {
     let calculatedMaxTemperature
-    selectedDevice.value?.temperatures.forEach((tempEntry) => {
+    props.temperatures.forEach((tempEntry) => {
         if (calculatedMaxTemperature == null || tempEntry.temperature > calculatedMaxTemperature) {
             calculatedMaxTemperature = tempEntry.temperature
         }
@@ -138,7 +142,7 @@ const generateMaxTemperature = () => {
 
 const generateMaxHumidity = () => {
     let calculatedMaxHumidity
-    selectedDevice.value?.temperatures.forEach((tempEntry) => {
+    props.temperatures.forEach((tempEntry) => {
         if (calculatedMaxHumidity == null || tempEntry.humidity > calculatedMaxHumidity) {
             calculatedMaxHumidity = tempEntry.humidity
         }
@@ -149,7 +153,7 @@ const generateMaxHumidity = () => {
 
 const generateMinTemperature = () => {
     let calculatedMinTemperature
-    selectedDevice.value?.temperatures.forEach((tempEntry) => {
+    props.temperatures.forEach((tempEntry) => {
         if (calculatedMinTemperature == null || tempEntry.temperature < calculatedMinTemperature) {
             calculatedMinTemperature = tempEntry.temperature
         }
@@ -160,7 +164,7 @@ const generateMinTemperature = () => {
 
 const generateMinHumidity = () => {
     let calculatedMinHumidity
-    selectedDevice.value?.temperatures.forEach((tempEntry) => {
+    props.temperatures.forEach((tempEntry) => {
         if (calculatedMinHumidity == null || tempEntry.humidity < calculatedMinHumidity) {
             calculatedMinHumidity = tempEntry.humidity
         }
@@ -169,7 +173,7 @@ const generateMinHumidity = () => {
     minHumidity.value = calculatedMinHumidity
 }
 
-watch(props.devices, () => {
+watch(props.temperatures, () => {
     dataUpdate()
 })
 
@@ -277,7 +281,7 @@ onUnmounted(() => {
       </h2>
 
       <div v-if="selectedDevice" class="mt-4 text-gray-400">
-          <div v-if="selectedDevice.temperatures.length > 0">
+          <div v-if="temperatures.length > 0">
               <Line
                   class="w-full"
                   :id="`${selectedDevice.id}-${selectedDevice.name}-overview-chart`"
@@ -305,10 +309,10 @@ onUnmounted(() => {
         </div>
 
         <div class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-            <div v-if="selectedDevice && selectedDevice.temperatures.length > 0">
-                <p>Last temperature: <span v-text="selectedDevice.temperatures[0].temperature"/> °C</p>
-                <p>Last humidity: <span v-text="selectedDevice.temperatures[0].humidity" /> %</p>
-                <p>Last reading: <span v-text="new Date(selectedDevice.temperatures[0].created_at).toLocaleString()" /></p>
+            <div v-if="selectedDevice && temperatures.length > 0">
+                <p>Last temperature: <span v-text="temperatures[0].temperature"/> °C</p>
+                <p>Last humidity: <span v-text="temperatures[0].humidity" /> %</p>
+                <p>Last reading: <span v-text="new Date(temperatures[0].created_at).toLocaleString()" /></p>
             </div>
             <div v-else>
                 <p>No data found.</p>
